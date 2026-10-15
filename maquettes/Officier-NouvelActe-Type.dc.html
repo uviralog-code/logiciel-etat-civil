@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Nouvel acte — choix du type</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F6F9;color:#14213D;font-family:'Source Sans 3',system-ui,sans-serif}
+a{color:#0B3D91}a:hover{color:#072A66}
+input:focus,button:focus-visible,a:focus-visible{outline:3px solid #8DB4F2;outline-offset:1px}
+.nav a{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:8px;color:#D6E2F7;text-decoration:none;font-size:16px;font-weight:500}
+.nav a:hover{background:#0F4AA8;color:#FFFFFF}
+.nav a.actif{background:#FFFFFF;color:#0B3D91;font-weight:700}
+.carte{display:flex;flex-direction:column;gap:10px;padding:16px;background:#FFFFFF;border:1px solid #D9DFE8;border-radius:10px;text-decoration:none;color:#14213D;min-height:132px;box-sizing:border-box}
+.carte:hover{border-color:#0B3D91;box-shadow:0 0 0 2px #0B3D91 inset}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column">
+  <div style="display: flex; height: 6px" aria-hidden="true">
+    <div style="flex: 6; background: #0B7BD8"></div><div style="flex: 1; background: #F7D618"></div><div style="flex: 2; background: #C8102E"></div><div style="flex: 1; background: #F7D618"></div><div style="flex: 6; background: #0B7BD8"></div>
+  </div>
+  <div style="flex: 1; display: flex; flex-wrap: wrap">
+
+    <nav class="nav" aria-label="Menu principal" style="flex: 1 1 240px; max-width: 280px; background: #0B3D91; padding: 28px 16px; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box">
+      <div style="padding: 0 16px 24px; display: flex; flex-direction: column; gap: 4px">
+        <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; font-weight: 700; color: #FFFFFF">État civil · Uvira</span>
+        <span style="font-size: 14px; color: #B9CBEB">Commune de Mulongwe</span>
+      </div>
+      <a href="Officier-Accueil.dc.html">Accueil</a>
+      <a href="#" class="actif">Nouvel acte</a>
+      <a href="Officier-Scan.dc.html">Scanner</a>
+      <a href="#">Rechercher</a>
+      <a href="Officier-ImportLot.dc.html">Anciens registres</a>
+      <a href="Officier-Tarifs.dc.html">Tarifs de l'entité</a>
+    </nav>
+
+    <main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+      <header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 40px; background: #FFFFFF; border-bottom: 1px solid #D9DFE8">
+        <ol style="margin: 0; padding: 0; list-style: none; display: flex; gap: 12px; flex-wrap: wrap; font-size: 16px">
+          <li style="display: flex; align-items: center; gap: 8px; font-weight: 700; color: #0B3D91"><span style="display: inline-flex; width: 28px; height: 28px; border-radius: 50%; background: #0B3D91; color: #FFFFFF; align-items: center; justify-content: center; font-size: 14px">1</span>Type d'acte</li>
+          <li style="color: #8A94A6" aria-hidden="true">›</li>
+          <li style="display: flex; align-items: center; gap: 8px; color: #4A5568"><span style="display: inline-flex; width: 28px; height: 28px; border-radius: 50%; border: 2px solid #A9B4C4; align-items: center; justify-content: center; font-size: 14px; box-sizing: border-box">2</span>Fiche</li>
+          <li style="color: #8A94A6" aria-hidden="true">›</li>
+          <li style="display: flex; align-items: center; gap: 8px; color: #4A5568"><span style="display: inline-flex; width: 28px; height: 28px; border-radius: 50%; border: 2px solid #A9B4C4; align-items: center; justify-content: center; font-size: 14px; box-sizing: border-box">3</span>Transmission au Caissier</li>
+        </ol>
+        <span style="font-size: 16px"><strong>Bahati Mugisho</strong> · Officier d'état civil</span>
+      </header>
+
+      <div style="padding: 32px 40px 48px; display: flex; flex-direction: column; gap: 28px; max-width: 1560px; box-sizing: border-box; width: 100%">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <h1 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 34px; font-weight: 700">Quel acte voulez-vous établir ?</h1>
+            <p style="margin: 0; font-size: 17px; color: #4A5568">Choisissez le type d'acte en premier : la fiche et le prix en dépendent.</p>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; flex: 0 1 380px">
+            <label for="filtre" style="font-size: 15px; font-weight: 600">Filtrer</label>
+            <input id="filtre" type="search" placeholder="ex. naissance, célibat, exhumation…" style="height: 48px; padding: 0 14px; font-size: 17px; font-family: inherit; border: 1px solid #A9B4C4; border-radius: 8px; box-sizing: border-box">
+          </div>
+        </div>
+
+        <sc-for list="{{familles}}" as="famille" hint-placeholder-count="5">
+          <section style="display: flex; flex-direction: column; gap: 14px">
+            <h2 style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700">
+              <span style="width: 14px; height: 14px; border-radius: 4px; background: {{famille.couleur}}" aria-hidden="true"></span>{{famille.nom}}
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px">
+              <sc-for list="{{famille.actes}}" as="acte" hint-placeholder-count="4">
+                <a href="Officier-NouvelActe-Fiche.dc.html" class="carte">
+                  <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+                    <span style="padding: 3px 8px; border-radius: 6px; background: {{acte.couleur}}; color: #FFFFFF; font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600">{{acte.code}}</span>
+                    <span style="font-size: 13px; color: #4A5568">N° {{acte.numero}}</span>
+                  </div>
+                  <span style="font-size: 17px; font-weight: 600; line-height: 1.3">{{acte.libelle}}</span>
+                  <span style="margin-top: auto; font-size: 15px; color: #374151">{{acte.prix}}</span>
+                </a>
+              </sc-for>
+            </div>
+          </section>
+        </sc-for>
+      </div>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1250}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const C = { etat: '#0B3D91', naissance: '#2E7D32', mariage: '#6A1B9A', deces: '#455A64', attestation: '#1565C0', certificat: '#00727C', autorisation: '#BF360C' };
+    const a = (numero, code, libelle, couleur, prix) => ({ numero, code, libelle, couleur, prix });
+    return {
+      familles: [
+        { nom: "Actes d'état civil", couleur: C.etat, actes: [
+          a('01', 'NOTNAI', 'Acte de notoriété supplétif à un acte de naissance', C.naissance, '60 000 FC'),
+          a('02', 'DEC', 'Acte de décès', C.deces, '15 000 FC'),
+          a('03', 'MAR', 'Célébration de mariage, acte, livret de ménage et PV', C.mariage, '75 $'),
+          a('04', 'DEPMAR', "Déplacement de l'Officier pour la célébration de mariage", C.mariage, '95 $')
+        ]},
+        { nom: 'Extraits', couleur: '#374151', actes: [
+          a('22', 'EXNAIS', "Extrait d'acte de naissance", C.naissance, '30 $'),
+          a('23', 'EXMAR', "Extrait d'acte de mariage", C.mariage, '20 $'),
+          a('24', 'EXDEC', "Extrait d'acte de décès", C.deces, '10 $')
+        ]},
+        { nom: 'Attestations', couleur: C.attestation, actes: [
+          a('05', 'ATRES', 'Attestation de résidence', C.attestation, 'National 18 000 FC · Étranger 39 000 FC'),
+          a('06', 'ATNAI', 'Attestation de naissance', C.naissance, 'National 7 000 FC · Étranger 11 000 FC'),
+          a('08', 'ATCEL', 'Attestation de célibat', C.attestation, 'National 9 000 FC · Étranger 30 000 FC'),
+          a('09', 'ATIDC', "Attestation d'identité complète", C.attestation, '8 000 FC'),
+          a('10', 'ATDEC', 'Attestation de décès', C.deces, '9 000 FC'),
+          a('12', 'ATDECD', 'Attestation de décès à domicile', C.deces, '9 000 FC'),
+          a('15', 'ATCOMP', 'Attestation de composition familiale', C.attestation, 'National 9 000 FC · Étranger 16 000 FC'),
+          a('16', 'ATVEUV', 'Attestation de veuvage', C.attestation, '5 000 FC'),
+          a('17', 'ATLOG', 'Attestation de logement', C.attestation, '8 000 FC'),
+          a('18', 'ATMAR', 'Attestation de mariage', C.mariage, 'National 13 000 FC · Étranger 19 000 FC'),
+          a('21', 'ATPEC', 'Attestation de prise en charge', C.attestation, '20 $'),
+          a('25', 'ATPERT', 'Attestation de perte de pièce', C.attestation, '18 000 FC')
+        ]},
+        { nom: 'Certificats', couleur: C.certificat, actes: [
+          a('07', 'CBCVM', 'Certificat de bonne conduite, vie et mœurs', C.certificat, 'National 11 000 FC · Étranger 50 000 FC'),
+          a('26', 'CVIE', 'Certificat de vie', C.certificat, '18 000 FC')
+        ]},
+        { nom: 'Autorisations et permis', couleur: C.autorisation, actes: [
+          a('11', 'AUTOMB', "Autorisation d'érection d'une tombe", C.autorisation, '500 $'),
+          a('13', 'PINHUM', "Permis d'inhumation", C.autorisation, '9 000 FC'),
+          a('14', 'PEXHUM', "Permis d'exhumation", C.autorisation, '500 $'),
+          a('19', 'AUTRAN', 'Autorisation de transfert de corps', C.autorisation, '300 $'),
+          a('20', 'AUPAV', 'Autorisation parentale de voyage', C.autorisation, '5 000 FC')
+        ]}
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

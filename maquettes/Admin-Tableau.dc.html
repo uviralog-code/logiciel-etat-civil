@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Admin — Tableau de bord</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F6F9;color:#14213D;font-family:'Source Sans 3',system-ui,sans-serif}
+a{color:#0B3D91}a:hover{color:#072A66}
+button:focus-visible,a:focus-visible{outline:3px solid #8DB4F2;outline-offset:1px}
+.nav a{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:8px;color:#D6E2F7;text-decoration:none;font-size:16px;font-weight:500}
+.nav a:hover{background:#0F4AA8;color:#FFFFFF}
+.nav a.actif{background:#FFFFFF;color:#0B3D91;font-weight:700}
+.tuile{background:#FFFFFF;border:1px solid #D9DFE8;border-radius:10px;padding:18px 20px;display:flex;flex-direction:column;gap:4px}
+.tuile .t{font-size:15px;color:#4A5568}
+.tuile .v{font-size:32px;font-weight:700}
+.tuile .s{font-size:14px;color:#4A5568}
+th{text-align:left;font-size:13px;font-weight:700;color:#4A5568;text-transform:uppercase;letter-spacing:0.05em;padding:10px 14px;border-bottom:1px solid #D9DFE8}
+td{padding:14px;border-bottom:1px solid #EDF0F5;font-size:16px;vertical-align:middle}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+.ok{padding:3px 10px;border-radius:999px;background:#E8F5EC;color:#1B5E20;font-size:14px;font-weight:700;white-space:nowrap}
+.att{padding:3px 10px;border-radius:999px;background:#FFF4D6;color:#6B4E00;font-size:14px;font-weight:700;white-space:nowrap}
+.ko{padding:3px 10px;border-radius:999px;background:#FDECEC;color:#8A1C1C;font-size:14px;font-weight:700;white-space:nowrap}
+.alerte{display:flex;gap:12px;align-items:flex-start;padding:14px 18px;border-top:1px solid #EDF0F5;font-size:16px;line-height:1.4}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column">
+  <div style="display: flex; height: 6px" aria-hidden="true">
+    <div style="flex: 6; background: #0B7BD8"></div><div style="flex: 1; background: #F7D618"></div><div style="flex: 2; background: #C8102E"></div><div style="flex: 1; background: #F7D618"></div><div style="flex: 6; background: #0B7BD8"></div>
+  </div>
+  <div style="flex: 1; display: flex; flex-wrap: wrap">
+
+    <nav class="nav" aria-label="Menu principal" style="flex: 1 1 240px; max-width: 280px; background: #14213D; padding: 28px 16px; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box">
+      <div style="padding: 0 16px 24px; display: flex; flex-direction: column; gap: 4px">
+        <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; font-weight: 700; color: #FFFFFF">État civil · Uvira</span>
+        <span style="font-size: 14px; color: #B9CBEB">Administration · CDJP/Bukavu</span>
+      </div>
+      <a href="#" class="actif">Tableau de bord</a>
+      <a href="Admin-Rapports.dc.html">Rapports consolidés</a>
+      <a href="Admin-Grille.dc.html">Grille commune</a>
+      <a href="Admin-Comptes.dc.html">Comptes</a>
+      <a href="Admin-Journal.dc.html">Journal d'audit</a>
+      <a href="#">Connexions</a>
+      <a href="#">Rechercher</a>
+      <div style="flex: 1"></div>
+      <a href="Main.dc.html">Se déconnecter</a>
+    </nav>
+
+    <main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+      <header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 40px; background: #FFFFFF; border-bottom: 1px solid #D9DFE8">
+        <span style="font-size: 16px; color: #4A5568">Mardi 13 octobre 2026 · 16 h 40</span>
+        <span style="font-size: 16px"><strong>Abbé Justin Nkunzi</strong> · Administrateur principal</span>
+      </header>
+
+      <div style="padding: 32px 40px 48px; display: flex; flex-direction: column; gap: 24px; max-width: 1640px; box-sizing: border-box; width: 100%">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <h1 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 34px; font-weight: 700">Les 4 entités aujourd'hui</h1>
+            <p style="margin: 0; font-size: 17px; color: #4A5568">Mulongwe, Kavimvira, Kalundu et la chefferie des Bavira</p>
+          </div>
+          <a href="Admin-Rapports.dc.html" style="display: inline-flex; align-items: center; height: 48px; padding: 0 20px; border-radius: 8px; background: #0B3D91; color: #FFFFFF; font-size: 17px; font-weight: 700; text-decoration: none">Rapports consolidés</a>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px">
+          <div class="tuile"><span class="t">Recettes du jour (4 entités)</span><span class="v">929 000 FC</span><span class="s">en équivalent francs</span></div>
+          <div class="tuile"><span class="t">Recettes d'octobre</span><span class="v">7 570 000 FC</span><span class="s" style="color: #1B5E20; font-weight: 600">+8,6 % par rapport à septembre</span></div>
+          <div class="tuile"><span class="t">Taux d'archivage global</span><span class="v">93,5 %</span><span class="s">des actes payés en octobre sont scannés</span></div>
+          <div class="tuile" style="background: #FFF4D6; border-color: #E8C766"><span class="t" style="color: #6B4E00; font-weight: 600">Points à vérifier</span><span class="v" style="color: #6B4E00">4</span><span class="s" style="color: #6B4E00">voir la liste ci-dessous</span></div>
+        </div>
+
+        <section style="background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; overflow: hidden">
+          <h2 style="margin: 0; padding: 18px 20px; font-size: 20px; font-weight: 700">Par entité</h2>
+          <div style="overflow-x: auto">
+            <table style="width: 100%; border-collapse: collapse; min-width: 1080px">
+              <thead><tr><th>Entité</th><th style="text-align: right">Recettes du jour</th><th style="text-align: right">Recettes du mois</th><th>Caisse d'hier</th><th style="text-align: right">Écarts du mois</th><th style="text-align: right">Payés sans scan</th><th style="text-align: right">Archivage</th><th style="text-align: right">Taux $ du jour</th><th>Synchronisation</th></tr></thead>
+              <tbody>
+                <tr><td style="font-weight: 700">Commune de Mulongwe</td><td class="n">394 500 FC</td><td class="n">2 874 500 FC</td><td><span class="ok">Clôturée</span></td><td class="n" style="color: #8A1C1C; font-weight: 700">− 5 000 FC</td><td class="n">4</td><td class="n">96,1 %</td><td class="n">2 850</td><td><span class="ok">il y a 2 min</span></td></tr>
+                <tr><td style="font-weight: 700">Commune de Kavimvira</td><td class="n">251 000 FC</td><td class="n">2 105 000 FC</td><td><span class="ok">Clôturée</span></td><td class="n">0</td><td class="n">1</td><td class="n">98,7 %</td><td class="n">2 900</td><td><span class="ok">il y a 5 min</span></td></tr>
+                <tr><td style="font-weight: 700">Commune de Kalundu</td><td class="n">187 500 FC</td><td class="n">1 642 000 FC</td><td><span class="ko">Non clôturée</span></td><td class="n">0</td><td class="n">6</td><td class="n">91,4 %</td><td class="n">2 850</td><td><span class="att">hors-ligne depuis 3 h</span></td></tr>
+                <tr><td style="font-weight: 700">Chefferie des Bavira</td><td class="n">96 000 FC</td><td class="n">948 500 FC</td><td><span class="ok">Clôturée</span></td><td class="n" style="color: #1B5E20; font-weight: 700">+ 2 000 FC</td><td class="n">9</td><td class="n" style="color: #8A1C1C; font-weight: 700">82,3 %</td><td class="n">2 880</td><td><span class="ok">il y a 1 h</span></td></tr>
+                <tr style="background: #F4F6F9"><td style="font-weight: 700">Total</td><td class="n" style="font-weight: 700">929 000 FC</td><td class="n" style="font-weight: 700">7 570 000 FC</td><td></td><td class="n" style="font-weight: 700">− 3 000 FC</td><td class="n" style="font-weight: 700">20</td><td class="n" style="font-weight: 700">93,5 %</td><td></td><td></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
+          <section style="flex: 1 1 520px; background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; overflow: hidden">
+            <h2 style="margin: 0; padding: 18px 20px; font-size: 20px; font-weight: 700">Points à vérifier</h2>
+            <div class="alerte"><span class="ko">Caisse</span><span><strong>Kalundu</strong> n'a pas clôturé la journée d'hier (12/10). Le poste est hors-ligne depuis 3 h.</span></div>
+            <div class="alerte"><span class="ko">Écart</span><span><strong>Mulongwe</strong> : manque de 5 000 FC le 13/10. Explication : « Billet rendu par erreur à un usager vers 11 h ».</span></div>
+            <div class="alerte"><span class="att">Archivage</span><span><strong>Bavira</strong> : 9 actes payés sans scan, taux d'archivage de 82,3 %.</span></div>
+            <div class="alerte"><span class="att">Tarif</span><span><strong>Mulongwe</strong> a programmé l'attestation de résidence à 20 000 FC à partir du 12/11 (grille : 18 000 FC).</span></div>
+          </section>
+
+          <section style="flex: 1 1 420px; background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; padding: 20px 22px; display: flex; flex-direction: column; gap: 14px">
+            <h2 style="margin: 0; font-size: 20px; font-weight: 700">Recettes d'octobre par entité</h2>
+            <div role="img" aria-label="Recettes d'octobre : Mulongwe 2 874 500 FC, Kavimvira 2 105 000, Kalundu 1 642 000, Bavira 948 500" style="display: flex; flex-direction: column; gap: 12px">
+              <div style="display: grid; grid-template-columns: 110px minmax(0, 1fr) 120px; align-items: center; gap: 12px; font-size: 15px"><span>Mulongwe</span><div style="height: 22px; width: 100%; background: #0B3D91; border-radius: 0 4px 4px 0"></div><span style="text-align: right; font-variant-numeric: tabular-nums">2 874 500</span></div>
+              <div style="display: grid; grid-template-columns: 110px minmax(0, 1fr) 120px; align-items: center; gap: 12px; font-size: 15px"><span>Kavimvira</span><div style="height: 22px; width: 73%; background: #0B3D91; border-radius: 0 4px 4px 0"></div><span style="text-align: right; font-variant-numeric: tabular-nums">2 105 000</span></div>
+              <div style="display: grid; grid-template-columns: 110px minmax(0, 1fr) 120px; align-items: center; gap: 12px; font-size: 15px"><span>Kalundu</span><div style="height: 22px; width: 57%; background: #0B3D91; border-radius: 0 4px 4px 0"></div><span style="text-align: right; font-variant-numeric: tabular-nums">1 642 000</span></div>
+              <div style="display: grid; grid-template-columns: 110px minmax(0, 1fr) 120px; align-items: center; gap: 12px; font-size: 15px"><span>Bavira</span><div style="height: 22px; width: 33%; background: #0B3D91; border-radius: 0 4px 4px 0"></div><span style="text-align: right; font-variant-numeric: tabular-nums">948 500</span></div>
+            </div>
+            <span style="font-size: 14px; color: #4A5568">en francs, équivalent au taux de chaque paiement</span>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1250}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

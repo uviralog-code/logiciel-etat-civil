@@ -1,0 +1,13 @@
+# Bibliothèques et fichiers produits (recréés à l'installation)
+node_modules/
+.next/
+application/public/vendor/
+application/next-env.d.ts
+application/tsconfig.tsbuildinfo
+.journaux/
+pont-scanner/dist/etatcivil-scanner-linux
+
+# Réglages secrets : JAMAIS dans le dépôt
+.env
+.env.local
+.env.*.local

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Admin — Comptes</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F6F9;color:#14213D;font-family:'Source Sans 3',system-ui,sans-serif}
+a{color:#0B3D91}a:hover{color:#072A66}
+input:focus,select:focus,button:focus-visible,a:focus-visible{outline:3px solid #8DB4F2;outline-offset:1px}
+.nav a{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:8px;color:#D6E2F7;text-decoration:none;font-size:16px;font-weight:500}
+.nav a:hover{background:#0F4AA8;color:#FFFFFF}
+.nav a.actif{background:#FFFFFF;color:#0B3D91;font-weight:700}
+th{text-align:left;font-size:13px;font-weight:700;color:#4A5568;text-transform:uppercase;letter-spacing:0.05em;padding:10px 14px;border-bottom:1px solid #D9DFE8}
+td{padding:12px 14px;border-bottom:1px solid #EDF0F5;font-size:16px;vertical-align:middle}
+.id{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px}
+.ok{padding:3px 10px;border-radius:999px;background:#E8F5EC;color:#1B5E20;font-size:14px;font-weight:700;white-space:nowrap}
+.off{padding:3px 10px;border-radius:999px;background:#EEF0F3;color:#374151;font-size:14px;font-weight:700;white-space:nowrap}
+.att{padding:3px 10px;border-radius:999px;background:#FFF4D6;color:#6B4E00;font-size:14px;font-weight:700;white-space:nowrap}
+.btn{height:40px;padding:0 12px;border:1px solid #A9B4C4;border-radius:8px;background:#FFFFFF;color:#14213D;font-family:inherit;font-size:15px;white-space:nowrap}
+.champ{display:flex;flex-direction:column;gap:8px}
+.champ label{font-size:16px;font-weight:600}
+.champ input,.champ select{height:48px;padding:0 14px;font-size:17px;font-family:inherit;color:#14213D;border:1px solid #A9B4C4;border-radius:8px;box-sizing:border-box;background:#FFFFFF}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column">
+  <div style="display: flex; height: 6px" aria-hidden="true">
+    <div style="flex: 6; background: #0B7BD8"></div><div style="flex: 1; background: #F7D618"></div><div style="flex: 2; background: #C8102E"></div><div style="flex: 1; background: #F7D618"></div><div style="flex: 6; background: #0B7BD8"></div>
+  </div>
+  <div style="flex: 1; display: flex; flex-wrap: wrap">
+
+    <nav class="nav" aria-label="Menu principal" style="flex: 1 1 240px; max-width: 280px; background: #14213D; padding: 28px 16px; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box">
+      <div style="padding: 0 16px 24px; display: flex; flex-direction: column; gap: 4px">
+        <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; font-weight: 700; color: #FFFFFF">État civil · Uvira</span>
+        <span style="font-size: 14px; color: #B9CBEB">Administration · CDJP/Bukavu</span>
+      </div>
+      <a href="Admin-Tableau.dc.html">Tableau de bord</a>
+      <a href="Admin-Rapports.dc.html">Rapports consolidés</a>
+      <a href="Admin-Grille.dc.html">Grille commune</a>
+      <a href="#" class="actif">Comptes</a>
+      <a href="Admin-Journal.dc.html">Journal d'audit</a>
+      <a href="#">Connexions</a>
+      <a href="#">Rechercher</a>
+    </nav>
+
+    <main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+      <header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 40px; background: #FFFFFF; border-bottom: 1px solid #D9DFE8">
+        <span style="font-size: 16px; color: #4A5568">1 administrateur · 1 officier et 1 caissier actifs par entité</span>
+        <span style="font-size: 16px"><strong>Abbé Justin Nkunzi</strong> · Administrateur principal</span>
+      </header>
+
+      <div style="padding: 32px 40px 48px; display: flex; flex-direction: column; gap: 24px; max-width: 1640px; box-sizing: border-box; width: 100%">
+        <h1 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 34px; font-weight: 700">Comptes des agents</h1>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start">
+          <section style="flex: 999 1 640px; min-width: 0; background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; overflow: hidden">
+            <div style="overflow-x: auto">
+              <table style="width: 100%; border-collapse: collapse; min-width: 900px">
+                <thead><tr><th>Nom d'utilisateur</th><th>Nom</th><th>Rôle</th><th>Entité</th><th>Dernière connexion en ligne</th><th>État</th><th></th></tr></thead>
+                <tbody>
+                  <tr><td class="id">mulongwe.officier</td><td>Bahati Mugisho</td><td>Officier</td><td>Mulongwe</td><td>aujourd'hui 07 h 52</td><td><span class="ok">Actif</span></td><td style="text-align: right"><button type="button" class="btn">Mot de passe…</button></td></tr>
+                  <tr><td class="id">mulongwe.caissier</td><td>Neema Furaha</td><td>Caissier</td><td>Mulongwe</td><td>aujourd'hui 07 h 55</td><td><span class="ok">Actif</span></td><td style="text-align: right"><button type="button" class="btn">Mot de passe…</button></td></tr>
+                  <tr><td class="id">kavimvira.officier</td><td>Amani Byamungu</td><td>Officier</td><td>Kavimvira</td><td>aujourd'hui 08 h 03</td><td><span class="ok">Actif</span></td><td style="text-align: right"><button type="button" class="btn">Mot de passe…</button></td></tr>
+                  <tr><td class="id">kavimvira.caissier</td><td>Grace Mapendo</td><td>Caissier</td><td>Kavimvira</td><td>aujourd'hui 08 h 01</td><td><span class="ok">Actif</span></td><td style="text-align: right"><button type="button" class="btn">Mot de passe…</button></td></tr>
+                  <tr><td class="id">kalundu.officier</td><td>Espoir Furaha</td><td>Officier</td><td>Kalundu</td><td>il y a 6 jours</td><td><span class="att">Hors-ligne : reste 1 jour</span></td><td style="text-align: right"><button type="button" class="btn">Mot de passe…</button></td></tr>
+                  <tr><td class="id">kalundu.caissier</td><td>Pierre Ndoole</td><td>Caissier</td><td>Kalundu</td><td>hier 16 h 20</td><td><span class="ok">Actif</span></td><td style="text-align: right"><button type="button" class="btn">Mot de passe…</button></td></tr>
+                  <tr><td class="id">bavira.officier</td><td>Claire Bahati</td><td>Officier</td><td>Bavira</td><td>aujourd'hui 09 h 10</td><td><span class="ok">Actif</span></td><td style="text-align: right"><button type="button" class="btn">Mot de passe…</button></td></tr>
+                  <tr><td class="id">bavira.caissier</td><td>—</td><td>Caissier</td><td>Bavira</td><td>—</td><td><span class="att">À créer</span></td><td style="text-align: right"><button type="button" class="btn" style="border-color: #0B3D91; color: #0B3D91; font-weight: 700">Créer</button></td></tr>
+                  <tr style="color: #6B7280"><td class="id">bavira.caissier.ancien</td><td>Jean Kabila</td><td>Caissier</td><td>Bavira</td><td>02/10/2026</td><td><span class="off">Désactivé le 05/10</span></td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <form style="flex: 1 1 380px; background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 18px">
+            <h2 style="margin: 0; font-size: 20px; font-weight: 700">Créer un compte</h2>
+            <div class="champ">
+              <label for="entite">Entité</label>
+              <select id="entite"><option>Chefferie des Bavira</option></select>
+            </div>
+            <div class="champ">
+              <label for="role">Rôle</label>
+              <select id="role"><option>Caissier</option><option>Officier d'état civil</option></select>
+            </div>
+            <div class="champ">
+              <label for="nom">Nom complet de l'agent</label>
+              <input id="nom" type="text" value="Mukeba Esther">
+            </div>
+            <div class="champ">
+              <label for="identifiant">Nom d'utilisateur</label>
+              <input id="identifiant" type="text" value="bavira.caissier" style="font-family: 'IBM Plex Mono', monospace">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px; padding: 16px; border-radius: 8px; background: #F0F5FF; border: 1px solid #C5D4EE">
+              <span style="font-size: 15px; color: #0B3D91; font-weight: 600">Mot de passe provisoire (affiché une seule fois)</span>
+              <span style="font-family: 'IBM Plex Mono', monospace; font-size: 24px; font-weight: 600; letter-spacing: 0.06em">7K4-PX9-QM2</span>
+              <span style="font-size: 14px; color: #374151">Remettez-le à l'agent en main propre. Il devra le changer à sa première connexion.</span>
+            </div>
+            <button type="submit" style="height: 52px; border: 0; border-radius: 8px; background: #0B3D91; color: #FFFFFF; font-family: inherit; font-size: 17px; font-weight: 700">Créer le compte</button>
+            <p style="margin: 0; font-size: 14px; line-height: 1.45; color: #4A5568">Un seul officier et un seul caissier actifs par entité. Pour remplacer un agent, désactivez d'abord l'ancien compte : il reste conservé pour l'historique.</p>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1080}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Connexion</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&amp;family=IBM+Plex+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F6F9;color:#14213D;font-family:'Source Sans 3',system-ui,sans-serif}
+a{color:#0B3D91}a:hover{color:#072A66}
+input:focus{outline:3px solid #8DB4F2;outline-offset:1px}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column; background: #F4F6F9">
+  <div style="display: flex; height: 6px" aria-hidden="true">
+    <div style="flex: 6; background: #0B7BD8"></div>
+    <div style="flex: 1; background: #F7D618"></div>
+    <div style="flex: 2; background: #C8102E"></div>
+    <div style="flex: 1; background: #F7D618"></div>
+    <div style="flex: 6; background: #0B7BD8"></div>
+  </div>
+  <div style="flex: 1; display: flex; flex-wrap: wrap">
+    <div style="flex: 1 1 420px; background: #0B3D91; color: #FFFFFF; padding: 64px 72px; display: flex; flex-direction: column; justify-content: space-between; gap: 48px">
+      <div style="display: flex; flex-direction: column; gap: 6px; font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase; color: #D6E2F7">
+        <span>République Démocratique du Congo</span>
+        <span>Province du Sud-Kivu · Ville d'Uvira</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 20px; max-width: 520px">
+        <h1 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 48px; line-height: 1.1; font-weight: 700">Registre numérique de l'état civil</h1>
+        <p style="margin: 0; font-size: 20px; line-height: 1.5; color: #D6E2F7">Communes de Mulongwe, Kavimvira et Kalundu · Chefferie des Bavira</p>
+      </div>
+      <p style="margin: 0; font-size: 14px; color: #B9CBEB">Accès réservé aux agents habilités. Toute connexion est enregistrée.</p>
+    </div>
+    <div style="flex: 999 1 520px; display: flex; align-items: center; justify-content: center; padding: 48px 24px">
+      <form style="width: 100%; max-width: 440px; background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 12px; padding: 40px; display: flex; flex-direction: column; gap: 24px; box-sizing: border-box">
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <h2 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 30px; font-weight: 700; color: #14213D">Connexion</h2>
+          <p style="margin: 0; font-size: 16px; color: #4A5568">Entrez votre nom d'utilisateur et votre mot de passe.</p>
+        </div>
+        <sc-if value="{{enLigne}}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 8px; background: #E8F5EC; color: #1B5E20; font-size: 15px; font-weight: 600">
+            <span style="width: 10px; height: 10px; border-radius: 50%; background: #2E7D32" aria-hidden="true"></span>
+            <span>En ligne — connexion à internet disponible</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{horsLigne}}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 4px; padding: 10px 14px; border-radius: 8px; background: #FFF4D6; color: #6B4E00; font-size: 15px">
+            <span style="font-weight: 700">Hors-ligne — pas de connexion à internet</span>
+            <span>Vous pouvez travailler sur ce poste jusqu'au 19/10/2026. Tout sera transmis au retour du réseau.</span>
+          </div>
+        </sc-if>
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <label for="utilisateur" style="font-size: 16px; font-weight: 600">Nom d'utilisateur</label>
+          <input id="utilisateur" type="text" value="mulongwe.officier" autocomplete="username" style="height: 48px; padding: 0 14px; font-size: 18px; font-family: inherit; color: #14213D; border: 1px solid #A9B4C4; border-radius: 8px; box-sizing: border-box">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <label for="motdepasse" style="font-size: 16px; font-weight: 600">Mot de passe</label>
+          <input id="motdepasse" type="password" value="motdepasse" autocomplete="current-password" style="height: 48px; padding: 0 14px; font-size: 18px; font-family: inherit; color: #14213D; border: 1px solid #A9B4C4; border-radius: 8px; box-sizing: border-box">
+        </div>
+        <button type="submit" style="height: 52px; border: 0; border-radius: 8px; background: #0B3D91; color: #FFFFFF; font-family: inherit; font-size: 18px; font-weight: 700; cursor: pointer">Se connecter</button>
+        <p style="margin: 0; font-size: 14px; color: #4A5568">Mot de passe oublié ? Adressez-vous à l'administrateur (CDJP), qui vous attribuera un mot de passe provisoire.</p>
+      </form>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"horsLigne":{"editor":"boolean","default":false,"section":"État du réseau"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const horsLigne = this.props.horsLigne ?? false;
+    return { horsLigne: horsLigne, enLigne: !horsLigne };
+  }
+}
+</script>
+</body>
+</html>

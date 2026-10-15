@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Reçu de paiement</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&amp;family=Source+Serif+4:opsz,wght@8..60,700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF;color:#111111;font-family:'Source Sans 3',system-ui,sans-serif}
+.l{display:flex;justify-content:space-between;gap:16px;padding:7px 0;border-bottom:1px dotted #9AA3AF;font-size:14px}
+.l span:first-child{color:#374151}
+.l span:last-child{font-weight:600;text-align:right}
+</style>
+</helmet>
+<div style="width: 560px; height: 800px; box-sizing: border-box; padding: 36px 40px; background: #FFFFFF; display: flex; flex-direction: column; gap: 16px; position: relative">
+  <div style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; font-size: 12.5px; line-height: 1.35; text-transform: uppercase; letter-spacing: 0.03em">
+    <span style="font-weight: 700">République Démocratique du Congo</span>
+    <span>Province du Sud-Kivu · Ville d'Uvira</span>
+    <span style="font-weight: 700">Commune de Mulongwe</span>
+    <span>Bureau de l'État-Civil</span>
+  </div>
+  <div style="height: 2px; background: #111111"></div>
+
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 12px">
+    <div style="display: flex; flex-direction: column; gap: 2px">
+      <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 24px; font-weight: 700">Reçu de paiement</span>
+      <span style="font-size: 13px; color: #374151">13/10/2026 à 08 h 29</span>
+    </div>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 16px; padding: 6px 10px; border: 1.5px solid #111111; border-radius: 4px">MUL-REC-2026-000845</span>
+  </div>
+
+  <div style="display: flex; flex-direction: column">
+    <div class="l"><span>Acte</span><span>Extrait d'acte de naissance</span></div>
+    <div class="l"><span>ID de l'acte</span><span style="font-family: 'IBM Plex Mono', monospace">MUL-EXNAIS-2026-000124</span></div>
+    <div class="l"><span>Titulaire</span><span>Mapendo Grace</span></div>
+    <div class="l"><span>Demandeur</span><span>Mapendo Joseph</span></div>
+    <div class="l"><span>Catégorie</span><span>National</span></div>
+    <div class="l"><span>Montant dû (grille 2026)</span><span>30 $</span></div>
+    <div class="l"><span>Taux appliqué</span><span>2 850 FC pour 1 $</span></div>
+    <div class="l"><span>Mode de paiement</span><span>Espèces</span></div>
+  </div>
+
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border: 2px solid #111111; border-radius: 6px">
+    <span style="font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em">Montant payé</span>
+    <span style="font-size: 30px; font-weight: 700">85 500 FC</span>
+  </div>
+  <span style="font-size: 13px; color: #374151">Quatre-vingt-cinq mille cinq cents francs congolais.</span>
+
+  <div style="display: flex; justify-content: space-between; gap: 24px; margin-top: 8px">
+    <div style="display: flex; flex-direction: column; gap: 4px; font-size: 13px">
+      <span style="color: #374151">Le Caissier</span>
+      <span style="font-weight: 600">Neema Furaha</span>
+      <span style="width: 170px; height: 46px; border-bottom: 1px solid #111111"></span>
+      <span style="color: #6B7280">Signature</span>
+    </div>
+    <div style="width: 120px; height: 120px; border: 1.5px dashed #6B7280; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; color: #6B7280">Cachet du bureau</div>
+  </div>
+
+  <div style="flex: 1"></div>
+  <p style="margin: 0; font-size: 12px; line-height: 1.45; color: #374151; border-top: 1px solid #9AA3AF; padding-top: 10px">Ce reçu est la preuve du paiement : conservez-le. Un reçu portant la mention « ANNULÉ » n'a aucune valeur. Numéro et montant vérifiables auprès du Bureau de l'État-Civil.</p>
+
+  <sc-if value="{{annule}}" hint-placeholder-val="{{ false }}">
+    <div aria-label="Reçu annulé" style="position: absolute; top: 320px; left: 40px; right: 40px; text-align: center; transform: rotate(-18deg); font-size: 72px; font-weight: 700; letter-spacing: 0.08em; color: #B42318; border: 6px solid #B42318; border-radius: 8px; opacity: 0.85">ANNULÉ</div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"annule":{"editor":"boolean","default":false,"section":"Exemple"},"$preview":{"width":560,"height":800}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { annule: this.props.annule ?? false };
+  }
+}
+</script>
+</body>
+</html>

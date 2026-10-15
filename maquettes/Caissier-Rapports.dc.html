@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Rapports de l'entité</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F6F9;color:#14213D;font-family:'Source Sans 3',system-ui,sans-serif}
+a{color:#0B3D91}a:hover{color:#072A66}
+button:focus-visible,a:focus-visible{outline:3px solid #8DB4F2;outline-offset:1px}
+.nav a{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:8px;color:#D6E2F7;text-decoration:none;font-size:16px;font-weight:500}
+.nav a:hover{background:#0F4AA8;color:#FFFFFF}
+.nav a.actif{background:#FFFFFF;color:#0B3D91;font-weight:700}
+.onglet{height:46px;padding:0 20px;border:1px solid #A9B4C4;background:#FFFFFF;color:#14213D;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer}
+.tuile{background:#FFFFFF;border:1px solid #D9DFE8;border-radius:10px;padding:18px 20px;display:flex;flex-direction:column;gap:4px}
+.tuile .t{font-size:15px;color:#4A5568}
+.tuile .v{font-size:30px;font-weight:700}
+.tuile .s{font-size:14px;color:#4A5568}
+th{text-align:left;font-size:13px;font-weight:700;color:#4A5568;text-transform:uppercase;letter-spacing:0.05em;padding:10px 16px;border-bottom:1px solid #D9DFE8}
+td{padding:12px 16px;border-bottom:1px solid #EDF0F5;font-size:16px}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column">
+  <div style="display: flex; height: 6px" aria-hidden="true">
+    <div style="flex: 6; background: #0B7BD8"></div><div style="flex: 1; background: #F7D618"></div><div style="flex: 2; background: #C8102E"></div><div style="flex: 1; background: #F7D618"></div><div style="flex: 6; background: #0B7BD8"></div>
+  </div>
+  <div style="flex: 1; display: flex; flex-wrap: wrap">
+
+    <nav class="nav" aria-label="Menu principal" style="flex: 1 1 240px; max-width: 280px; background: #0B3D91; padding: 28px 16px; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box">
+      <div style="padding: 0 16px 24px; display: flex; flex-direction: column; gap: 4px">
+        <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; font-weight: 700; color: #FFFFFF">État civil · Uvira</span>
+        <span style="font-size: 14px; color: #B9CBEB">Commune de Mulongwe · Caisse</span>
+      </div>
+      <a href="Caissier-Accueil.dc.html">Accueil</a>
+      <a href="Caissier-Encaissement.dc.html">Encaisser</a>
+      <a href="#">Reçus du jour</a>
+      <a href="#">Taux du jour</a>
+      <a href="Caissier-Cloture.dc.html">Clôture de caisse</a>
+      <a href="#" class="actif">Rapports</a>
+      <a href="#">Rechercher</a>
+    </nav>
+
+    <main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+      <header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 40px; background: #FFFFFF; border-bottom: 1px solid #D9DFE8">
+        <span style="font-size: 16px; color: #4A5568">Rapports · Commune de Mulongwe</span>
+        <span style="font-size: 16px"><strong>Neema Furaha</strong> · Caissier</span>
+      </header>
+
+      <div style="padding: 32px 40px 48px; display: flex; flex-direction: column; gap: 24px; max-width: 1560px; box-sizing: border-box; width: 100%">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+          <div role="tablist" aria-label="Période" style="display: flex">
+            <button type="button" role="tab" class="onglet" style="border-radius: 8px 0 0 8px">Jour</button>
+            <button type="button" role="tab" aria-selected="true" class="onglet" style="background: #0B3D91; color: #FFFFFF; border-color: #0B3D91">Mois</button>
+            <button type="button" role="tab" class="onglet">Semestre</button>
+            <button type="button" role="tab" class="onglet" style="border-radius: 0 8px 8px 0">Année</button>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px">
+            <button type="button" aria-label="Mois précédent" style="width: 46px; height: 46px; border: 1px solid #A9B4C4; border-radius: 8px; background: #FFFFFF; font-size: 20px; color: #14213D">‹</button>
+            <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 26px; font-weight: 700; min-width: 190px; text-align: center">Octobre 2026</span>
+            <button type="button" aria-label="Mois suivant" style="width: 46px; height: 46px; border: 1px solid #A9B4C4; border-radius: 8px; background: #FFFFFF; font-size: 20px; color: #14213D">›</button>
+          </div>
+          <div style="display: flex; gap: 10px">
+            <button type="button" style="height: 46px; padding: 0 18px; border: 1px solid #0B3D91; border-radius: 8px; background: #FFFFFF; color: #0B3D91; font-family: inherit; font-size: 16px; font-weight: 700">Exporter en PDF</button>
+            <button type="button" style="height: 46px; padding: 0 18px; border: 1px solid #0B3D91; border-radius: 8px; background: #FFFFFF; color: #0B3D91; font-family: inherit; font-size: 16px; font-weight: 700">Exporter en Excel</button>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px">
+          <div class="tuile"><span class="t">Recettes (équivalent FC)</span><span class="v">2 874 500 FC</span><span class="s" style="color: #1B5E20; font-weight: 600">+10,1 % par rapport à septembre</span></div>
+          <div class="tuile"><span class="t">Encaissé en dollars · en francs</span><span class="v">300 $</span><span class="s">et 2 019 500 FC</span></div>
+          <div class="tuile"><span class="t">Reçus émis</span><span class="v">96</span><span class="s">dont 2 annulés · 3 exonérations (54 000 FC)</span></div>
+          <div class="tuile"><span class="t">Points de vigilance</span><span class="v" style="color: #8A1C1C">− 5 000 FC</span><span class="s">écart de caisse · 4 actes payés sans scan</span></div>
+        </div>
+
+        <section style="background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; padding: 22px 24px; display: flex; flex-direction: column; gap: 16px">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap">
+            <h2 style="margin: 0; font-size: 20px; font-weight: 700">Recettes jour par jour</h2>
+            <span style="font-size: 15px; color: #4A5568">en équivalent FC · les jours sans activité sont à zéro</span>
+          </div>
+          <div role="img" aria-label="Recettes quotidiennes d'octobre 2026, de 0 à 410 500 FC ; le plus fort le 8 octobre" style="display: flex; align-items: flex-end; gap: 10px; height: 240px; padding-top: 24px; border-bottom: 1px solid #A9B4C4">
+            <sc-for list="{{jours}}" as="j" hint-placeholder-count="13">
+              <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; height: 100%">
+                <span style="font-size: 12px; color: #374151; white-space: nowrap">{{j.etiquette}}</span>
+                <div style="width: 100%; max-width: 44px; border-radius: 4px 4px 0 0; {{j.barre}}"></div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display: flex; gap: 10px">
+            <sc-for list="{{jours}}" as="j" hint-placeholder-count="13">
+              <span style="flex: 1; text-align: center; font-size: 13px; color: #4A5568">{{j.jour}}</span>
+            </sc-for>
+          </div>
+        </section>
+
+        <section style="background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; overflow: hidden">
+          <h2 style="margin: 0; padding: 18px 20px; font-size: 20px; font-weight: 700">Par type d'acte</h2>
+          <div style="overflow-x: auto">
+            <table style="width: 100%; border-collapse: collapse; min-width: 820px">
+              <thead><tr><th>Acte</th><th style="text-align: right">Payés</th><th style="text-align: right">dont étrangers</th><th style="text-align: right">Exonérés</th><th style="text-align: right">Recettes (équiv. FC)</th><th style="text-align: right">Part</th></tr></thead>
+              <tbody>
+                <tr><td>Extrait d'acte de naissance</td><td class="n">9</td><td class="n">—</td><td class="n">0</td><td class="n">769 500 FC</td><td class="n">26,8 %</td></tr>
+                <tr><td>Attestation de résidence</td><td class="n">38</td><td class="n">4</td><td class="n">2</td><td class="n">768 000 FC</td><td class="n">26,7 %</td></tr>
+                <tr><td>Acte de notoriété supplétif</td><td class="n">8</td><td class="n">—</td><td class="n">0</td><td class="n">480 000 FC</td><td class="n">16,7 %</td></tr>
+                <tr><td>Acte de décès</td><td class="n">22</td><td class="n">—</td><td class="n">1</td><td class="n">330 000 FC</td><td class="n">11,5 %</td></tr>
+                <tr><td>Attestation de célibat</td><td class="n">12</td><td class="n">1</td><td class="n">0</td><td class="n">129 000 FC</td><td class="n">4,5 %</td></tr>
+                <tr><td>Autres actes (9 types)</td><td class="n">7</td><td class="n">0</td><td class="n">0</td><td class="n">398 000 FC</td><td class="n">13,8 %</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1200}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const valeurs = [312000, 254500, 0, 0, 288000, 341500, 296000, 410500, 275000, 0, 0, 302500, 394500];
+    const max = Math.max(...valeurs);
+    const fmt = (v) => v === 0 ? '0' : (Math.round(v / 1000)) + ' k';
+    return {
+      jours: valeurs.map((v, i) => ({
+        jour: String(i + 1),
+        etiquette: fmt(v),
+        barre: 'height: ' + Math.max(2, Math.round(180 * v / max)) + 'px; background: ' + (v === max ? '#0B3D91' : '#7FA1D6')
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

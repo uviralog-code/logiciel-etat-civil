@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Scan d'un acte</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F6F9;color:#14213D;font-family:'Source Sans 3',system-ui,sans-serif}
+a{color:#0B3D91}a:hover{color:#072A66}
+button:focus-visible,a:focus-visible{outline:3px solid #8DB4F2;outline-offset:1px}
+.nav a{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:8px;color:#D6E2F7;text-decoration:none;font-size:16px;font-weight:500}
+.nav a:hover{background:#0F4AA8;color:#FFFFFF}
+.nav a.actif{background:#FFFFFF;color:#0B3D91;font-weight:700}
+.mode{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:20px;border:1px solid #A9B4C4;border-radius:10px;background:#FFFFFF;font-family:inherit;color:#14213D;text-align:left;cursor:pointer;min-height:120px;box-sizing:border-box}
+.mode strong{font-size:18px}
+.mode span{font-size:15px;color:#4A5568}
+.ok{display:flex;gap:10px;align-items:flex-start;font-size:16px}
+.ok svg{flex:none;margin-top:2px}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column">
+  <div style="display: flex; height: 6px" aria-hidden="true">
+    <div style="flex: 6; background: #0B7BD8"></div><div style="flex: 1; background: #F7D618"></div><div style="flex: 2; background: #C8102E"></div><div style="flex: 1; background: #F7D618"></div><div style="flex: 6; background: #0B7BD8"></div>
+  </div>
+  <div style="flex: 1; display: flex; flex-wrap: wrap">
+
+    <nav class="nav" aria-label="Menu principal" style="flex: 1 1 240px; max-width: 280px; background: #0B3D91; padding: 28px 16px; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box">
+      <div style="padding: 0 16px 24px; display: flex; flex-direction: column; gap: 4px">
+        <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; font-weight: 700; color: #FFFFFF">État civil · Uvira</span>
+        <span style="font-size: 14px; color: #B9CBEB">Commune de Mulongwe</span>
+      </div>
+      <a href="Officier-Accueil.dc.html">Accueil</a>
+      <a href="Officier-NouvelActe-Type.dc.html">Nouvel acte</a>
+      <a href="#" class="actif">Scanner</a>
+      <a href="#">Rechercher</a>
+      <a href="Officier-ImportLot.dc.html">Anciens registres</a>
+      <a href="Officier-Tarifs.dc.html">Tarifs de l'entité</a>
+    </nav>
+
+    <main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+      <header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 40px; background: #FFFFFF; border-bottom: 1px solid #D9DFE8">
+        <a href="Officier-Accueil.dc.html" style="font-size: 16px; font-weight: 600">‹ Retour à l'accueil</a>
+        <span style="font-size: 16px"><strong>Bahati Mugisho</strong> · Officier d'état civil</span>
+      </header>
+
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 22px 40px; background: #2E7D32; color: #FFFFFF">
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <span style="font-size: 26px; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase">Extrait d'acte de naissance</span>
+          <span style="font-size: 18px">Titulaire : <strong>MUGISHO Bahati Jean</strong> · payé à 08 h 29 · délivré</span>
+        </div>
+        <span style="padding: 8px 14px; border-radius: 8px; background: #FFFFFF; color: #1B5E20; font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 20px">MUL-EXNAIS-2026-000123</span>
+      </div>
+
+      <div style="padding: 32px 40px 48px; display: flex; flex-wrap: wrap; gap: 32px; max-width: 1560px; box-sizing: border-box; width: 100%; align-items: flex-start">
+        <div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+          <section style="display: flex; flex-direction: column; gap: 14px">
+            <h1 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 28px; font-weight: 700">Joindre l'acte signé et cacheté</h1>
+            <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px">
+              <button type="button" class="mode" style="border: 2px solid #0B3D91; background: #E6EDF8">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0B3D91" stroke-width="2" aria-hidden="true"><rect x="3" y="7" width="18" height="12" rx="2"></rect><path d="M7 7V4h10v3M7 13h10"></path></svg>
+                <strong>Scanner</strong>
+                <span>Scanner HP du bureau · prêt</span>
+              </button>
+              <button type="button" class="mode">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0B3D91" stroke-width="2" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"></path></svg>
+                <strong>Importer un fichier</strong>
+                <span>PDF, JPEG ou PNG, 15 Mo au plus</span>
+              </button>
+              <button type="button" class="mode">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0B3D91" stroke-width="2" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"></rect><circle cx="12" cy="17" r="1"></circle></svg>
+                <strong>Photo par téléphone</strong>
+                <span>En secours, si le scanner est en panne</span>
+              </button>
+            </div>
+          </section>
+
+          <section style="background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap">
+              <h2 style="margin: 0; font-size: 20px; font-weight: 700">Aperçu — page 1 sur 1</h2>
+              <div style="display: flex; gap: 10px; flex-wrap: wrap">
+                <button type="button" style="height: 44px; padding: 0 16px; border: 1px solid #A9B4C4; border-radius: 8px; background: #FFFFFF; font-family: inherit; font-size: 16px; color: #14213D">Pivoter</button>
+                <button type="button" style="height: 44px; padding: 0 16px; border: 1px solid #A9B4C4; border-radius: 8px; background: #FFFFFF; font-family: inherit; font-size: 16px; color: #14213D">Ajouter une page</button>
+                <button type="button" style="height: 44px; padding: 0 16px; border: 1px solid #A9B4C4; border-radius: 8px; background: #FFFFFF; font-family: inherit; font-size: 16px; color: #14213D">Recommencer</button>
+              </div>
+            </div>
+            <div style="display: flex; justify-content: center; padding: 28px; background: #E9EDF2; border-radius: 8px">
+              <div role="img" aria-label="Aperçu de l'acte scanné" style="width: 360px; height: 480px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(20,33,61,0.25); padding: 28px; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px">
+                <div style="height: 10px; width: 70%; align-self: center; background: #C9D1DC; border-radius: 3px"></div>
+                <div style="height: 10px; width: 50%; align-self: center; background: #C9D1DC; border-radius: 3px"></div>
+                <div style="height: 16px; width: 80%; align-self: center; background: #8A94A6; border-radius: 3px; margin: 14px 0"></div>
+                <div style="height: 8px; background: #DDE3EA; border-radius: 3px"></div>
+                <div style="height: 8px; background: #DDE3EA; border-radius: 3px"></div>
+                <div style="height: 8px; width: 90%; background: #DDE3EA; border-radius: 3px"></div>
+                <div style="height: 8px; background: #DDE3EA; border-radius: 3px"></div>
+                <div style="height: 8px; width: 75%; background: #DDE3EA; border-radius: 3px"></div>
+                <div style="flex: 1"></div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end">
+                  <div style="width: 70px; height: 70px; border: 3px solid #8FA7D6; border-radius: 50%"></div>
+                  <div style="width: 110px; height: 8px; background: #8A94A6; border-radius: 3px"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <aside style="flex: 1 1 360px; display: flex; flex-direction: column; gap: 16px">
+          <section style="background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+            <h2 style="margin: 0; font-size: 20px; font-weight: 700">Avant de valider, vérifiez</h2>
+            <div class="ok"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.6" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg><span>Le document est bien un <strong>extrait d'acte de naissance</strong></span></div>
+            <div class="ok"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.6" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg><span>Il est au nom de <strong>MUGISHO Bahati Jean</strong></span></div>
+            <div class="ok"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.6" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg><span>Il est signé et cacheté, et lisible</span></div>
+            <div style="display: flex; flex-direction: column; gap: 4px; padding-top: 14px; border-top: 1px solid #EDF0F5">
+              <span style="font-size: 15px; color: #4A5568">Sera rangé sous</span>
+              <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 15px; word-break: break-all">MUL/2026/MUL-EXNAIS-2026-000123.pdf</span>
+              <span style="font-size: 15px; color: #4A5568">1 page · 210 Ko après compression · version 1</span>
+            </div>
+          </section>
+          <sc-if value="{{doublon}}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="padding: 16px 18px; border-radius: 10px; background: #FDECEC; border: 1px solid #E8A3A3; color: #8A1C1C; font-size: 16px; line-height: 1.45">
+              <strong>Ce fichier est déjà enregistré pour l'acte MUL-EXNAIS-2026-000118.</strong> Vérifiez que vous avez scanné le bon document.
+            </div>
+          </sc-if>
+          <a href="Officier-FicheActe.dc.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 8px; background: #0B3D91; color: #FFFFFF; font-size: 18px; font-weight: 700; text-decoration: none">Valider l'archivage</a>
+          <a href="Officier-Accueil.dc.html" style="align-self: center; font-size: 16px">Annuler</a>
+        </aside>
+      </div>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"doublon":{"editor":"boolean","default":false,"section":"Exemples d&#39;alerte"},"$preview":{"width":1440,"height":1020}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { doublon: this.props.doublon ?? false };
+  }
+}
+</script>
+</body>
+</html>

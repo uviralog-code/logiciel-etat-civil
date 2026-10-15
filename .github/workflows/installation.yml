@@ -1,0 +1,75 @@
+# =====================================================================
+# Installation sur Supabase — à lancer depuis GitHub :
+#   onglet « Actions » › « Installation » › « Run workflow »
+# 1. Installer ou mettre à jour la base (à refaire à chaque nouvelle version)
+# 2. Créer le premier administrateur (une seule fois)
+# 3. Charger les données de démonstration (base neuve seulement)
+# Les clés et mots de passe sont lus dans les « secrets » du dépôt
+# (Settings › Secrets and variables › Actions) : jamais écrits ici.
+# =====================================================================
+name: Installation
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "Que faire ?"
+        type: choice
+        required: true
+        options:
+          - "1 - Installer ou mettre à jour la base"
+          - "2 - Créer le premier administrateur"
+          - "3 - Charger les données de démonstration"
+      nom_admin:
+        description: "Nom d'utilisateur du premier administrateur (étape 2)"
+        default: "cdjp.admin"
+      nom_complet_admin:
+        description: "Nom complet du premier administrateur (étape 2)"
+        default: "Abbé Justin Nkunzi"
+
+jobs:
+  executer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Outil PostgreSQL
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client
+
+      - name: Installer ou mettre à jour la base
+        if: startsWith(inputs.action, '1')
+        run: bash deploiement/installer-base.sh
+
+      - uses: actions/setup-node@v4
+        if: ${{ !startsWith(inputs.action, '1') }}
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: application/package-lock.json
+
+      - name: Bibliothèques
+        if: ${{ !startsWith(inputs.action, '1') }}
+        working-directory: application
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Créer le premier administrateur
+        if: startsWith(inputs.action, '2')
+        working-directory: application
+        env:
+          NOM_UTILISATEUR: ${{ inputs.nom_admin }}
+          NOM_COMPLET: ${{ inputs.nom_complet_admin }}
+          MOT_DE_PASSE_PROVISOIRE: ${{ secrets.MOT_DE_PASSE_PROVISOIRE_ADMIN }}
+        run: node scripts/premier-admin.mjs
+
+      - name: Charger les données de démonstration
+        if: startsWith(inputs.action, '3')
+        working-directory: application
+        env:
+          MOT_DE_PASSE_DEMO: ${{ secrets.MOT_DE_PASSE_DEMO }}
+        run: node scripts/demonstration.mjs

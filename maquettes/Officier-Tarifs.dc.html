@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Tarifs de l'entité</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F6F9;color:#14213D;font-family:'Source Sans 3',system-ui,sans-serif}
+a{color:#0B3D91}a:hover{color:#072A66}
+input:focus,select:focus,textarea:focus,button:focus-visible,a:focus-visible{outline:3px solid #8DB4F2;outline-offset:1px}
+.nav a{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:8px;color:#D6E2F7;text-decoration:none;font-size:16px;font-weight:500}
+.nav a:hover{background:#0F4AA8;color:#FFFFFF}
+.nav a.actif{background:#FFFFFF;color:#0B3D91;font-weight:700}
+th{text-align:left;font-size:13px;font-weight:700;color:#4A5568;text-transform:uppercase;letter-spacing:0.05em;padding:10px 16px;border-bottom:1px solid #D9DFE8}
+td{padding:13px 16px;border-bottom:1px solid #EDF0F5;font-size:16px;vertical-align:middle}
+.champ{display:flex;flex-direction:column;gap:8px}
+.champ label{font-size:16px;font-weight:600}
+.champ input,.champ select,.champ textarea{height:48px;padding:0 14px;font-size:17px;font-family:inherit;color:#14213D;border:1px solid #A9B4C4;border-radius:8px;box-sizing:border-box;background:#FFFFFF}
+.champ textarea{height:80px;padding:12px 14px}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column">
+  <div style="display: flex; height: 6px" aria-hidden="true">
+    <div style="flex: 6; background: #0B7BD8"></div><div style="flex: 1; background: #F7D618"></div><div style="flex: 2; background: #C8102E"></div><div style="flex: 1; background: #F7D618"></div><div style="flex: 6; background: #0B7BD8"></div>
+  </div>
+  <div style="flex: 1; display: flex; flex-wrap: wrap">
+
+    <nav class="nav" aria-label="Menu principal" style="flex: 1 1 240px; max-width: 280px; background: #0B3D91; padding: 28px 16px; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box">
+      <div style="padding: 0 16px 24px; display: flex; flex-direction: column; gap: 4px">
+        <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; font-weight: 700; color: #FFFFFF">État civil · Uvira</span>
+        <span style="font-size: 14px; color: #B9CBEB">Commune de Mulongwe</span>
+      </div>
+      <a href="Officier-Accueil.dc.html">Accueil</a>
+      <a href="Officier-NouvelActe-Type.dc.html">Nouvel acte</a>
+      <a href="Officier-Scan.dc.html">Scanner</a>
+      <a href="#">Rechercher</a>
+      <a href="Officier-ImportLot.dc.html">Anciens registres</a>
+      <a href="#" class="actif">Tarifs de l'entité</a>
+    </nav>
+
+    <main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+      <header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 40px; background: #FFFFFF; border-bottom: 1px solid #D9DFE8">
+        <span style="font-size: 16px; color: #4A5568">Grille commune en vigueur depuis le 01/01/2026</span>
+        <span style="font-size: 16px"><strong>Bahati Mugisho</strong> · Officier d'état civil</span>
+      </header>
+
+      <div style="padding: 32px 40px 48px; display: flex; flex-direction: column; gap: 24px; max-width: 1560px; box-sizing: border-box; width: 100%">
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <h1 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 34px; font-weight: 700">Tarifs de la commune de Mulongwe</h1>
+          <p style="margin: 0; font-size: 17px; color: #4A5568">Par défaut, la grille commune s'applique. Un ajustement ne vaut que pour Mulongwe et l'administrateur le voit.</p>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
+          <section style="flex: 999 1 600px; min-width: 0; background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; overflow: hidden">
+            <div style="overflow-x: auto">
+              <table style="width: 100%; border-collapse: collapse; min-width: 720px">
+                <thead><tr><th>N°</th><th>Acte</th><th>Grille commune</th><th>Tarif appliqué à Mulongwe</th></tr></thead>
+                <tbody>
+                  <tr><td>01</td><td>Acte de notoriété supplétif</td><td>60 000 FC</td><td>60 000 FC</td></tr>
+                  <tr><td>02</td><td>Acte de décès</td><td>15 000 FC</td><td>15 000 FC</td></tr>
+                  <tr><td>03</td><td>Célébration de mariage</td><td>75 $</td><td>75 $</td></tr>
+                  <tr style="background: #FFF8E6">
+                    <td>05</td><td>Attestation de résidence <span style="color: #4A5568">(national)</span></td><td>18 000 FC</td>
+                    <td><div style="display: flex; flex-direction: column; gap: 4px"><span>18 000 FC</span><span style="align-self: flex-start; padding: 3px 8px; border-radius: 6px; background: #FFF4D6; color: #6B4E00; font-size: 14px; font-weight: 700">20 000 FC à partir du 12/11/2026</span></div></td>
+                  </tr>
+                  <tr><td>05</td><td>Attestation de résidence <span style="color: #4A5568">(étranger)</span></td><td>39 000 FC</td><td>39 000 FC</td></tr>
+                  <tr style="background: #EEF3FB">
+                    <td>16</td><td>Attestation de veuvage</td><td>5 000 FC</td>
+                    <td><div style="display: flex; flex-direction: column; gap: 4px"><span style="font-weight: 700">4 000 FC</span><span style="align-self: flex-start; padding: 3px 8px; border-radius: 6px; background: #E6EDF8; color: #0B3D91; font-size: 14px; font-weight: 700">Ajusté depuis le 01/09/2026</span></div></td>
+                  </tr>
+                  <tr><td>22</td><td>Extrait d'acte de naissance</td><td>30 $</td><td>30 $</td></tr>
+                  <tr><td>26</td><td>Certificat de vie</td><td>18 000 FC</td><td>18 000 FC</td></tr>
+                  <tr><td colspan="4" style="color: #4A5568; font-size: 15px">… et les 18 autres lignes de la grille</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <form style="flex: 1 1 360px; background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 18px">
+            <h2 style="margin: 0; font-size: 20px; font-weight: 700">Ajuster un tarif</h2>
+            <div class="champ">
+              <label for="acte">Acte</label>
+              <select id="acte"><option>05 · Attestation de résidence</option></select>
+            </div>
+            <div class="champ">
+              <label for="categorie">Catégorie</label>
+              <select id="categorie"><option>National</option><option>Étranger</option></select>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+              <div class="champ">
+                <label for="montant">Nouveau montant</label>
+                <input id="montant" type="text" value="20 000">
+              </div>
+              <div class="champ">
+                <label for="devise">Monnaie</label>
+                <select id="devise"><option>FC</option><option>$</option></select>
+              </div>
+            </div>
+            <div class="champ">
+              <label for="date">À partir du</label>
+              <input id="date" type="text" value="12/11/2026">
+            </div>
+            <div class="champ">
+              <label for="motif">Motif (décision de l'autorité)</label>
+              <textarea id="motif">Décision du Bourgmestre n° …</textarea>
+            </div>
+            <button type="submit" style="height: 52px; border: 0; border-radius: 8px; background: #0B3D91; color: #FFFFFF; font-family: inherit; font-size: 17px; font-weight: 700">Programmer l'ajustement</button>
+            <button type="button" style="height: 48px; border: 1px solid #0B3D91; border-radius: 8px; background: #FFFFFF; color: #0B3D91; font-family: inherit; font-size: 16px; font-weight: 700">Revenir à la grille commune</button>
+            <p style="margin: 0; font-size: 14px; line-height: 1.45; color: #4A5568">Un tarif déjà en vigueur ne se modifie pas : on programme le nouveau à partir d'une date. Seul un changement encore à venir peut être corrigé.</p>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1120}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

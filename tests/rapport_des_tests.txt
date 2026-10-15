@@ -1,0 +1,756 @@
+== Base de test neuve ==
+== Simulation Supabase ==
+
+== Migration 20261013000100_fondations.sql ==
+   appliquée sans erreur.
+== Tests 01_test_fondations.sql ==
+OK     : Extensions pgcrypto, unaccent et pg_trgm installées
+OK     : Liste type_entite : commune, chefferie
+OK     : Liste role_utilisateur : admin, officier, caissier
+OK     : Liste famille_acte : 5 familles d'actes
+OK     : Liste categorie_tarif : national, etranger
+OK     : Liste devise : USD, CDF
+OK     : Liste statut_acte : cycle de vie complet dans le bon ordre
+OK     : Liste mode_paiement : espèces uniquement
+OK     : Liste mode_import : scanner, fichier, photo, lot
+OK     : Une monnaie inconnue (EUR) est refusée (refusé : invalid input value for enum devise: "EUR")
+OK     : Un rôle inconnu (stagiaire) est refusé (refusé : invalid input value for enum role_utilisateur: "stagiaire")
+OK     : normaliser_texte : majuscules, accents et espaces corrigés
+OK     : normaliser_texte : la casse n'a pas d'importance
+OK     : normaliser_texte : accents français retirés (É, é)
+OK     : normaliser_texte : texte vide ou absent -> aucune valeur
+OK     : pg_trgm : "Mugiso" est reconnu comme proche de "Mugisho"
+OK     : maj_date_modification : la date est mise à jour automatiquement
+
+== Migration 20261013000200_entites_et_utilisateurs.sql ==
+   appliquée sans erreur.
+== Tests 02_test_entites_et_utilisateurs.sql ==
+OK     : Les 4 entités sont enregistrées
+OK     : Ville, province et statut actif remplis par défaut
+OK     : Deux entités ne peuvent pas avoir le même code (refusé : duplicate key value violates unique constraint "entites_code_key")
+OK     : Un code qui n'est pas 3 lettres majuscules est refusé (refusé : new row for relation "entites" violates check constraint "entites_code_format")
+OK     : Un type d'entité inconnu est refusé (refusé : invalid input value for enum type_entite: "quartier")
+OK     : Admin, officier et caissier de Mulongwe, officier de Kavimvira créés
+OK     : Nom d'utilisateur mis en minuscules, espaces superflus retirés
+OK     : Un nouveau compte doit changer son mot de passe à la première connexion
+OK     : Un deuxième administrateur actif est refusé (refusé : duplicate key value violates unique constraint "utilisateurs_un_seul_admin")
+OK     : Un administrateur rattaché à une entité est refusé (refusé : new row for relation "utilisateurs" violates check constraint "utilisateurs_entite_selon_role")
+OK     : L'administrateur ne peut pas désactiver la double vérification (refusé : new row for relation "utilisateurs" violates check constraint "utilisateurs_admin_double_verification")
+OK     : Un officier sans entité est refusé (refusé : new row for relation "utilisateurs" violates check constraint "utilisateurs_entite_selon_role")
+OK     : Un deuxième officier actif dans la même entité est refusé (refusé : duplicate key value violates unique constraint "utilisateurs_un_par_role_et_entite")
+OK     : Un deuxième caissier actif dans la même entité est refusé (refusé : duplicate key value violates unique constraint "utilisateurs_un_par_role_et_entite")
+OK     : Remplacement d'agent : l'ancien compte désactivé est conservé, le nouveau est créé
+OK     : L'ancien officier ne peut pas être réactivé tant que le nouveau est actif (refusé : duplicate key value violates unique constraint "utilisateurs_un_par_role_et_entite")
+OK     : Un nom d'utilisateur avec un espace est refusé (refusé : new row for relation "utilisateurs" violates check constraint "utilisateurs_nom_format")
+OK     : Un nom d'utilisateur avec un caractère spécial est refusé (refusé : new row for relation "utilisateurs" violates check constraint "utilisateurs_nom_format")
+OK     : Un nom d'utilisateur déjà pris est refusé, même écrit en majuscules (refusé : duplicate key value violates unique constraint "utilisateurs_nom_utilisateur_key")
+OK     : Un nom complet vide est refusé (refusé : new row for relation "utilisateurs" violates check constraint "utilisateurs_nom_complet_rempli")
+OK     : Un profil sans compte de connexion Supabase est refusé (refusé : insert or update on table "utilisateurs" violates foreign key constraint "utilisateurs_id_fkey")
+OK     : Caissier connecté : rôle reconnu
+OK     : Caissier connecté : entité Mulongwe reconnue
+OK     : Caissier connecté : n'est pas administrateur
+OK     : Admin connecté : reconnu comme administrateur
+OK     : Admin connecté : rattaché à aucune entité
+OK     : Compte désactivé : aucun rôle ni entité, comme s'il n'existait pas
+OK     : Sans règle d'accès, un utilisateur connecté ne voit aucune donnée
+OK     : Sans règle d'accès, un utilisateur ne peut rien ajouter (refusé : new row violates row-level security policy for table "entites")
+OK     : Connexion en ligne il y a 2 jours : travail hors-ligne autorisé
+OK     : Connexion en ligne il y a 8 jours : travail hors-ligne bloqué
+OK     : Jamais connecté en ligne : travail hors-ligne bloqué
+OK     : Compte désactivé : travail hors-ligne bloqué même avec une connexion récente
+OK     : Une entité qui a des utilisateurs ne peut pas être supprimée (refusé : update or delete on table "entites" violates foreign key constraint "utilisateurs_entite_id_fkey" on table "utilisateurs")
+OK     : Supprimer un compte de connexion supprime aussi son profil
+OK     : La date de modification se met à jour automatiquement
+
+== Migration 20261013000300_catalogue_et_tarifs.sql ==
+   appliquée sans erreur.
+== Tests 03_test_catalogue_et_tarifs.sql ==
+OK     : Trois types d'actes enregistrés
+OK     : Un code d'acte en minuscules est refusé (refusé : new row for relation "types_actes" violates check constraint "types_actes_code_format")
+OK     : Un code d'acte avec tiret est refusé (le tiret sépare les parties de l'ID) (refusé : new row for relation "types_actes" violates check constraint "types_actes_code_format")
+OK     : Deux actes ne peuvent pas avoir le même numéro de fiche (refusé : duplicate key value violates unique constraint "types_actes_numero_key")
+OK     : Une couleur qui n'est pas au format #RRGGBB est refusée (refusé : new row for relation "types_actes" violates check constraint "types_actes_couleur_format")
+OK     : Un tarif à zéro est refusé (la gratuité passe par l'exonération) (refusé : new row for relation "tarifs_communs" violates check constraint "tarifs_communs_montant_positif")
+OK     : Un tarif Étrangers est refusé pour un acte qui n'en a pas (refusé : Cet acte n'a pas de tarif Étrangers distinct : utilisez la catégorie "national".)
+OK     : Deux tarifs pour le même acte à la même date sont refusés (refusé : duplicate key value violates unique constraint "tarifs_communs_unique")
+OK     : Aujourd'hui, l'extrait de naissance coûte 30 $ (grille commune)
+OK     : Il y a 150 jours, il coûtait 25 $ : l'historique est respecté
+OK     : Avant la première grille, aucun tarif n'est trouvé
+OK     : Attestation de résidence pour un étranger : 39 000 FC
+OK     : Attestation de résidence pour un national : 18 000 FC
+OK     : Un étranger paie le tarif national quand l'acte n'a pas de tarif Étrangers
+OK     : Un type d'acte inconnu ne donne aucun tarif
+OK     : Un tarif programmé pour plus tard ne s'applique pas encore
+OK     : Le tarif programmé s'applique à partir de sa date
+OK     : Kavimvira applique son propre tarif : 20 000 FC
+OK     : Mulongwe n'est pas touchée par l'ajustement de Kavimvira : 18 000 FC
+OK     : L'ajustement « nationaux » de Kavimvira ne change pas le tarif « étrangers »
+OK     : Avant son ajustement, Kavimvira appliquait la grille commune
+OK     : La vue des écarts montre l'écart de Kavimvira (20 000 FC contre 18 000 FC)
+OK     : Après le retour à la grille commune, Kavimvira repasse à 18 000 FC
+OK     : Un retour à la grille commune ne peut pas porter de montant (refusé : new row for relation "tarifs_entites" violates check constraint "tarifs_entites_coherence")
+OK     : Un ajustement local sans montant est refusé (refusé : new row for relation "tarifs_entites" violates check constraint "tarifs_entites_coherence")
+OK     : Un tarif commun déjà en vigueur ne peut pas être modifié (refusé : Historique protégé : ce tarif est déjà en vigueur et ne peut être ni modifié ni supprimé. Ajoutez une nouvelle ligne datée.)
+OK     : Un tarif commun déjà en vigueur ne peut pas être supprimé (refusé : Historique protégé : ce tarif est déjà en vigueur et ne peut être ni modifié ni supprimé. Ajoutez une nouvelle ligne datée.)
+OK     : Un ajustement local déjà en vigueur ne peut pas être modifié (refusé : Historique protégé : ce tarif est déjà en vigueur et ne peut être ni modifié ni supprimé. Ajoutez une nouvelle ligne datée.)
+OK     : Un tarif programmé pour plus tard peut encore être corrigé
+OK     : Un tarif programmé pour plus tard peut encore être supprimé
+OK     : Sans taux saisi, aucun taux n'est appliqué
+OK     : Mulongwe : le taux du jour est le plus récent (2 850 FC)
+OK     : Mulongwe : il y a 2 jours, le taux était de 2 800 FC
+OK     : Kavimvira a son propre taux (2 900 FC)
+OK     : Un taux invraisemblable (28,5) est refusé (refusé : new row for relation "taux_change" violates check constraint "taux_change_vraisemblable")
+OK     : Un taux invraisemblable (285 000) est refusé (refusé : new row for relation "taux_change" violates check constraint "taux_change_vraisemblable")
+OK     : Un taux déjà en vigueur ne peut pas être modifié (refusé : Historique protégé : ce taux est déjà en vigueur et ne peut être ni modifié ni supprimé. Ajoutez une nouvelle ligne datée.)
+OK     : Un taux déjà en vigueur ne peut pas être supprimé (refusé : Historique protégé : ce taux est déjà en vigueur et ne peut être ni modifié ni supprimé. Ajoutez une nouvelle ligne datée.)
+OK     : 75 $ au taux de 2 850 = 213 750 FC
+OK     : Un montant déjà en FC reste inchangé
+OK     : Le résultat est arrondi au franc (85 516,5 -> 85 517)
+OK     : Un montant en $ sans taux ne peut pas être converti
+OK     : Sans règle d'accès, un utilisateur connecté ne voit ni actes, ni tarifs, ni taux
+
+== Migration 20261013000400_actes.sql ==
+   appliquée sans erreur.
+== Tests 04_test_actes.sql ==
+OK     : Premier extrait de naissance de Mulongwe : MUL-EXNAIS-2026-000001
+OK     : Le deuxième acte du même type reçoit le numéro suivant (000002)
+OK     : Chaque entité a sa propre numérotation (KAV recommence à 000001)
+OK     : Chaque type d'acte a sa propre numérotation (DEC recommence à 000001)
+OK     : Un ID saisi à la main est ignoré : la base attribue le vrai numéro (000003)
+OK     : 50 actes enregistrés d'affilée : 50 ID différents, numérotés de 1 à 50 sans trou
+OK     : Le prix (30 $) est calculé automatiquement depuis la grille
+OK     : Un prix saisi à la main (1 FC) est ignoré : l'acte coûte bien 30 $
+OK     : Attestation de résidence pour un étranger : 39 000 FC appliqués automatiquement
+OK     : Un acte sans tarif défini ne peut pas être enregistré (refusé : Aucun tarif n'est défini pour cet acte à cette date : impossible de l'enregistrer.)
+OK     : Un acte dans une entité désactivée est refusé (refusé : Entité inconnue ou désactivée.)
+OK     : Un acte d'un type retiré du catalogue est refusé (refusé : Type d'acte inconnu ou désactivé.)
+OK     : Un nouvel acte ne peut pas être créé directement « payé » (refusé : Un nouvel acte commence au statut « enregistré » ou « en attente de paiement ».)
+OK     : Un acte sans nom de titulaire est refusé (refusé : new row for relation "actes" violates check constraint "actes_titulaire_rempli")
+OK     : Un nouvel acte daté de 10 jours en arrière est refusé (pas d'antidatage) (refusé : Un nouvel acte ne peut pas être daté de plus de 7 jours en arrière.)
+OK     : Un acte daté dans le futur est refusé (refusé : new row for relation "actes" violates check constraint "actes_date_pas_future")
+OK     : Un acte daté de 3 jours (saisie hors-ligne) est accepté
+OK     : Espaces superflus retirés ; texte de recherche prêt (titulaire + demandeur, sans majuscules)
+OK     : Un acte « enregistré » ne peut pas passer directement à « payé » (refusé : Passage de « enregistre » à « paye » non autorisé.)
+OK     : Enregistré -> en attente de paiement : accepté
+OK     : Avant paiement, corriger la catégorie (étranger -> national) recalcule le prix : 18 000 FC
+OK     : En attente -> payé : accepté
+OK     : Après paiement, le montant ne peut plus être modifié (refusé : Le montant, la catégorie et la date sont figés une fois l'acte payé ou exonéré.)
+OK     : Après paiement, la catégorie ne peut plus être modifiée (refusé : Le montant, la catégorie et la date sont figés une fois l'acte payé ou exonéré.)
+OK     : Un acte payé ne peut pas revenir à « enregistré » (refusé : Passage de « paye » à « enregistre » non autorisé.)
+OK     : Après paiement, l'orthographe d'un nom peut encore être corrigée
+OK     : Payé -> délivré : accepté, date de remise enregistrée
+OK     : Une annulation sans motif est refusée (refusé : new row for relation "actes" violates check constraint "actes_annulation_motivee")
+OK     : Délivré -> annulé avec motif : accepté, date d'annulation enregistrée
+OK     : Un acte annulé ne peut plus être modifié du tout (refusé : Cet acte est annulé : il ne peut plus être modifié.)
+OK     : En attente -> enregistré (retour à l'Officier pour correction) : accepté
+OK     : En attente -> exonéré -> délivré : accepté
+OK     : Le type d'un acte ne peut pas être changé (l'ID en dépend) (refusé : L'identification d'un acte (ID, entité, type, année, origine) ne peut pas être modifiée. Pour corriger le type, annulez l'acte et créez-en un nouveau.)
+OK     : L'ID d'un acte ne peut pas être modifié (refusé : L'identification d'un acte (ID, entité, type, année, origine) ne peut pas être modifiée. Pour corriger le type, annulez l'acte et créez-en un nouveau.)
+OK     : Un acte ne peut pas être déplacé vers une autre entité (refusé : L'identification d'un acte (ID, entité, type, année, origine) ne peut pas être modifiée. Pour corriger le type, annulez l'acte et créez-en un nouveau.)
+OK     : Un acte ne peut jamais être supprimé (refusé : Suppression interdite sur « actes » : utilisez l'annulation avec motif.)
+OK     : Archive ancienne : ID de son année (MUL-EXNAIS-2019-000001), déjà délivrée, sans montant
+OK     : Fiche naissance ajoutée à un extrait de naissance
+OK     : Une fiche décès sur un acte de naissance est refusée (refusé : Cette fiche « deces » ne correspond pas au type de l'acte (fiche attendue : « naissance »).)
+OK     : Une deuxième fiche pour le même acte est refusée (refusé : duplicate key value violates unique constraint "details_naissance_pkey")
+OK     : Mariage : les deux époux sont pris en compte pour la recherche
+OK     : Un sexe autre que M ou F est refusé (refusé : new row for relation "details_deces" violates check constraint "details_deces_sexe_check")
+OK     : Une date de décès dans le futur est refusée (refusé : new row for relation "details_deces" violates check constraint "details_deces_date_deces_check")
+OK     : On ne peut pas ajouter de fiche à un acte annulé (refusé : Cet acte est annulé : sa fiche ne peut plus être modifiée.)
+OK     : Une fiche de détails ne peut pas être supprimée (refusé : Suppression interdite sur « details_naissance » : utilisez l'annulation avec motif.)
+OK     : Sans règle d'accès, un utilisateur connecté ne voit aucun acte
+
+== Migration 20261013000500_caisse.sql ==
+   appliquée sans erreur.
+== Tests 05_test_caisse.sql ==
+OK     : La base fonctionne à l'heure d'Uvira (Africa/Lubumbashi, UTC+2)
+OK     : 23 h 30 en heure universelle = 1 h 30 à Uvira : le paiement compte pour le lendemain
+OK     : 21 h 59 en heure universelle = 23 h 59 à Uvira : le paiement compte pour le jour même
+OK     : Sans taux du jour, un acte en dollars ne peut pas être encaissé (refusé : Aucun taux de change n'est saisi pour cette entité : enregistrez le taux du jour avant d'encaisser.)
+OK     : Acte de 30 $ payé en dollars : 30 $ reçus, équivalent 85 500 FC, journée du jour
+OK     : Premier reçu numéroté automatiquement : MUL-REC-2026-000001
+OK     : Après encaissement, l'acte passe automatiquement à « payé »
+OK     : Acte de 30 $ payé en francs : la base calcule 85 500 FC à percevoir
+OK     : Acte de 15 000 FC payé en francs : 15 000 FC, aucun taux nécessaire
+OK     : Acte de 15 000 FC payé en dollars : 5,26 $ à percevoir (15 000 / 2 850)
+OK     : Les reçus se suivent sans trou : 000001 à 000004
+OK     : Un montant saisi à la main (1 FC) est ignoré : la base encaisse 15 000 FC
+OK     : Un acte déjà payé ne peut pas être encaissé une seconde fois (refusé : Seul un acte « en attente de paiement » peut être encaissé (statut actuel : paye).)
+OK     : Un acte encore « enregistré » (pas transmis au Caissier) ne peut pas être encaissé (refusé : Seul un acte « en attente de paiement » peut être encaissé (statut actuel : enregistre).)
+OK     : Un reçu ne peut pas être modifié (refusé : Un reçu ne peut pas être modifié. Seule l'annulation, avec motif, est possible.)
+OK     : Un reçu ne peut pas être supprimé (refusé : Suppression interdite sur « recus » : utilisez l'annulation avec motif.)
+OK     : Une exonération sans motif est refusée (refusé : new row for relation "exonerations" violates check constraint "exonerations_motif_rempli")
+OK     : Exonération accordée : l'acte passe à « exonéré », 15 000 FC non perçus enregistrés
+OK     : Un acte exonéré ne peut pas être encaissé (refusé : Seul un acte « en attente de paiement » peut être encaissé (statut actuel : exonere).)
+OK     : Une annulation de reçu sans motif est refusée (refusé : new row for relation "recus" violates check constraint "recus_annulation_motivee")
+OK     : Reçu annulé : il reste visible avec son montant, et l'acte est annulé avec le même motif
+OK     : Un reçu déjà annulé ne peut pas l'être une seconde fois (refusé : Ce reçu est déjà annulé : il ne peut plus être modifié.)
+OK     : Un manque de 5 000 FC sans explication bloque la clôture (refusé : Écart constaté (attendu : 35.26 $ et 115500.00 FC ; compté : 35.26 $ et 110500.00 FC). Une explication est obligatoire.)
+OK     : Clôture : 5 reçus valides, 1 annulé, 1 exonération ; attendu 35,26 $ et 115 500 FC ; manque de 5 000 FC enregistré
+OK     : Après la clôture, plus aucun encaissement pour cette journée (refusé : La caisse du 15/10/2026 est déjà clôturée : aucun encaissement possible pour cette journée.)
+OK     : Après la clôture, plus aucune exonération pour cette journée (refusé : La caisse du 15/10/2026 est déjà clôturée : aucune exonération possible pour cette journée.)
+OK     : Après la clôture, plus aucun reçu de la journée ne peut être annulé (refusé : La caisse du 15/10/2026 est clôturée : ce reçu ne peut plus être annulé.)
+OK     : Une journée ne peut être clôturée qu'une seule fois (refusé : duplicate key value violates unique constraint "clotures_une_par_jour")
+OK     : Une clôture ne peut pas être modifiée après coup (refusé : Modification interdite sur « clotures_caisse » : cet enregistrement est définitif.)
+OK     : Une clôture ne peut pas être supprimée (refusé : Suppression interdite sur « clotures_caisse » : cet enregistrement est définitif.)
+OK     : Une exonération ne peut pas être modifiée après coup (refusé : Modification interdite sur « exonerations » : cet enregistrement est définitif.)
+OK     : On ne peut pas clôturer une journée future (refusé : On ne peut pas clôturer une journée future.)
+OK     : La clôture de Mulongwe ne bloque pas Kavimvira, qui a sa propre numérotation et son propre taux
+OK     : Une journée oubliée (hier, sans opération) peut être clôturée après coup, à zéro
+OK     : Sans règle d'accès, un utilisateur connecté ne voit ni reçus, ni exonérations, ni clôtures
+
+== Migration 20261013000600_archives_scannees.sql ==
+   appliquée sans erreur.
+== Tests 06_test_archives_scannees.sql ==
+OK     : Espace « archives » privé, 15 Mo maximum, formats PDF, JPEG et PNG
+OK     : Emplacement prévu : MUL/2026/MUL-EXNAIS-2026-000001.pdf
+OK     : Une photo JPEG reçoit l'extension .jpg
+OK     : Un format non accepté (GIF) est refusé (refusé : Format non accepté (image/gif). Formats acceptés : PDF, JPEG, PNG.)
+OK     : Un scan est refusé tant que le fichier n'a pas été déposé (refusé : Aucun fichier trouvé à l'emplacement prévu (MUL/2026/MUL-EXNAIS-2026-000001.pdf). Déposez d'abord le fichier, puis enregistrez-le.)
+OK     : Scan enregistré : version 1, entité et emplacement imposés par la base (les valeurs saisies sont ignorées)
+OK     : Le scan suivant du même acte est prévu en version 2 (…-000001-v2.pdf)
+OK     : Un deuxième scan du même acte sans motif de remplacement est refusé (refusé : new row for relation "documents_scannes" violates check constraint "documents_remplacement_motive")
+OK     : Version 2 enregistrée : elle fait foi, la version 1 reste conservée
+OK     : Le même fichier ne peut pas être rattaché à un deuxième acte (refusé : Ce fichier est déjà enregistré pour l'acte MUL-EXNAIS-2026-000001. Vérifiez que vous avez scanné le bon document.)
+OK     : Un acte encore en attente de paiement ne peut pas recevoir de scan (refusé : L'acte MUL-EXNAIS-2026-000003 n'est pas encore payé ni exonéré : le scan se fait après l'établissement de l'acte signé.)
+OK     : Un acte annulé ne peut pas recevoir de scan (refusé : Cet acte est annulé : on ne peut plus y joindre de scan.)
+OK     : Un fichier GIF est refusé (refusé : Format non accepté (image/gif). Formats acceptés : PDF, JPEG, PNG.)
+OK     : Un fichier de plus de 15 Mo est refusé (refusé : new row for relation "documents_scannes" violates check constraint "documents_taille_valide")
+OK     : Une empreinte de fichier mal formée est refusée (refusé : new row for relation "documents_scannes" violates check constraint "documents_empreinte_format")
+OK     : Un scan ne peut pas être déplacé vers un autre acte (refusé : Modification interdite sur « documents_scannes » : cet enregistrement est définitif.)
+OK     : Un scan ne peut pas être supprimé (refusé : Suppression interdite sur « documents_scannes » : cet enregistrement est définitif.)
+OK     : Ancien acte numérisé en lot : rangé sous MUL/2019/MUL-EXNAIS-2019-000001.jpg
+OK     : Un acte de décès est refusé dans un lot déclaré « naissances » (refusé : Cet acte (MUL-DEC-2019-000001) ne correspond pas au lot (autre type d'acte ou autre entité).)
+OK     : Un import « en lot » sans lot désigné est refusé (refusé : new row for relation "documents_scannes" violates check constraint "documents_lot_coherent")
+OK     : Le type d'acte d'un lot ne peut pas être changé (refusé : L'entité, le type d'acte et l'année d'un lot ne peuvent pas être changés.)
+OK     : Un lot fermé n'accepte plus de documents (refusé : Ce lot est fermé : il n'accepte plus de documents.)
+OK     : Un lot fermé ne peut pas être rouvert (refusé : Ce lot est fermé : il ne peut plus être modifié.)
+OK     : Actes payés ou exonérés sans scan : D (exonéré) et E (payé) ; A est archivé, B pas encore payé, C annulé
+OK     : Pour chaque acte non archivé : la journée du paiement et le nombre de jours écoulés
+OK     : Taux d'archivage de Mulongwe : 1 acte archivé sur 3 payés = 33,3 %
+OK     : Kavimvira, sans acte payé : pas de taux calculé
+OK     : La clôture passe, et signale 2 actes du jour payés ou exonérés sans scan
+OK     : Après la clôture, l'Officier peut encore rattraper le scan oublié
+OK     : Sans règle d'accès, un utilisateur connecté ne voit ni scans ni lots
+
+== Migration 20261013000700_journaux.sql ==
+   appliquée sans erreur.
+== Tests 07_test_journaux.sql ==
+OK     : Création de l'entité MUL notée, comme opération technique (« système »)
+OK     : Création de l'acte notée : par l'Officier, avec l'ID de l'acte et son contenu
+OK     : Transmission au Caissier notée : seul le statut a changé (enregistré -> en attente)
+OK     : Émission du reçu notée : par le Caissier, avec le numéro du reçu et le montant
+OK     : Passage de l'acte à « payé » noté, au nom du Caissier
+OK     : Saisie du taux du jour notée, au nom du Caissier
+OK     : Ajout de la fiche naissance noté, avec l'entité et l'ID de l'acte retrouvés
+OK     : Annulation du reçu notée avec son motif
+OK     : Annulation automatique de l'acte également notée
+OK     : La simple mise à jour de la date de connexion n'encombre pas le journal
+OK     : Une modification qui ne change rien n'est pas notée
+OK     : La désactivation d'un compte, elle, est bien notée
+OK     : Vue lisible : nom de l'agent, entité et opération en français
+OK     : Échec avec un nom inconnu : noté, sans compte associé
+OK     : Échec sur un compte existant : le compte et le poste sont reconnus
+OK     : Une connexion réussie ne peut pas être notée par quelqu'un de non connecté (refusé : Une connexion réussie ne peut être notée que par la personne connectée.)
+OK     : Connexion réussie : c'est le compte réellement connecté qui est noté, pas le nom tapé
+OK     : Connexion réussie en ligne : le compteur des 7 jours hors-ligne repart
+OK     : Connexion hors-ligne transmise plus tard : notée à son heure réelle, sans relancer le compteur des 7 jours
+OK     : Une connexion de plus de 7 jours est refusée (refusé : Connexion de plus de 7 jours : trop ancienne pour être enregistrée.)
+OK     : Une connexion datée dans le futur est refusée (refusé : Heure de connexion dans le futur : refusée.)
+OK     : Le journal d'audit ne peut pas être modifié (refusé : Modification interdite sur « journal_audit » : cet enregistrement est définitif.)
+OK     : Le journal d'audit ne peut pas être effacé (refusé : Suppression interdite sur « journal_audit » : cet enregistrement est définitif.)
+OK     : Le journal d'audit ne peut pas être vidé d'un coup (refusé : Vidage interdit sur « journal_audit » : ce journal est inaltérable.)
+OK     : Le journal des connexions ne peut pas être effacé (refusé : Suppression interdite sur « journal_connexions » : cet enregistrement est définitif.)
+OK     : Le journal des connexions ne peut pas être vidé d'un coup (refusé : Vidage interdit sur « journal_connexions » : ce journal est inaltérable.)
+OK     : Sans règle d'accès, un agent connecté ne voit aucun journal
+
+== Migration 20261013000800_securite.sql ==
+   appliquée sans erreur.
+== Tests 08_test_securite.sql ==
+OK     : Un visiteur non connecté ne peut pas lire les actes (refusé : permission denied for table actes)
+OK     : Un visiteur non connecté ne peut pas lire les entités (refusé : permission denied for table entites)
+OK     : Un visiteur non connecté ne peut pas encaisser (refusé : permission denied for function encaisser)
+OK     : Un visiteur non connecté peut seulement faire noter un échec de connexion
+OK     : Officier : ne voit que son entité (Mulongwe)
+OK     : Officier : consulte le catalogue et la grille commune
+OK     : Officier : ne voit que son propre profil
+OK     : Officier : crée 5 actes, et ne voit pas celui de Kavimvira
+OK     : Officier : transmet 4 actes au Caissier
+OK     : Officier : remplit la fiche naissance
+OK     : Officier : ne peut pas créer un acte dans une autre entité (refusé : new row violates row-level security policy for table "actes")
+OK     : Officier : ne peut pas déclarer lui-même un acte « payé » (refusé : Le statut « paye » ne peut être donné que par la caisse (encaissement ou exonération).)
+OK     : Officier : ne peut pas encaisser (refusé : new row violates row-level security policy for table "recus")
+OK     : Officier : ne peut pas saisir le taux de change (refusé : new row violates row-level security policy for table "taux_change")
+OK     : Officier : ne peut pas toucher à la grille commune (refusé : new row violates row-level security policy for table "tarifs_communs")
+OK     : Officier : ajuste un tarif pour son entité
+OK     : Officier : ne peut pas ajuster un tarif d'une autre entité (refusé : new row violates row-level security policy for table "tarifs_entites")
+OK     : Officier : ne peut pas modifier son propre rôle
+OK     : Officier : peut lever lui-même l'obligation de changer son mot de passe, une fois changé
+OK     : Officier : ne voit pas le journal d'audit
+OK     : Officier : ne peut pas interroger la règle des 7 jours pour un collègue (pourtant connecté hier)
+OK     : Officier : peut interroger la règle des 7 jours pour lui-même
+OK     : Caissier : saisit le taux et encaisse 3 actes ; ne voit pas les reçus de Kavimvira
+OK     : Caissier : renvoie un acte à l'Officier pour correction
+OK     : Caissier : ne peut pas créer d'acte (refusé : new row violates row-level security policy for table "actes")
+OK     : Caissier : ne peut pas modifier le contenu d'un acte (refusé : Le Caissier ne peut que renvoyer à l'Officier un acte en attente de paiement.)
+OK     : Caissier : ne peut pas marquer un acte « délivré » (refusé : Le Caissier ne peut que renvoyer à l'Officier un acte en attente de paiement.)
+OK     : Caissier : ne peut pas remplir une fiche de détails (refusé : new row violates row-level security policy for table "details_naissance")
+OK     : Caissier : ne peut pas ajuster un tarif (refusé : new row violates row-level security policy for table "tarifs_entites")
+OK     : Caissier : ne peut pas encaisser un acte d'une autre entité (et n'apprend rien sur cet acte) (refusé : Acte introuvable.)
+OK     : Officier : délivre l'acte X et archive son scan
+OK     : Officier : ne peut pas déposer de fichier dans le dossier d'une autre entité (refusé : new row violates row-level security policy for table "objects")
+OK     : Officier : ne peut ni effacer ni renommer un fichier scanné (aucun effet)
+OK     : Caissier : consulte le scan et le fichier de son entité
+OK     : Caissier : ne peut pas déposer de fichier (refusé : new row violates row-level security policy for table "objects")
+OK     : Caissier : exonère un acte avec motif
+OK     : Kavimvira : ne voit aucun acte, reçu, scan, fichier ni tarif de Mulongwe
+OK     : Kavimvira : ne peut pas obtenir l'emplacement du scan d'un acte de Mulongwe (refusé : Acte introuvable.)
+OK     : Kavimvira : ne peut savoir ni à quelle entité appartient un acte de Mulongwe, ni si Mulongwe a clôturé
+OK     : Kavimvira : obtient bien ces informations pour ses propres actes et sa propre caisse
+OK     : Kavimvira : une tentative de modifier un acte de Mulongwe reste sans effet
+OK     : Admin : voit les 2 entités, tous les actes, tous les reçus et tous les comptes
+OK     : Admin : consulte le journal d'audit et le journal des connexions
+OK     : Admin : ne crée pas d'acte (il supervise sans opérer) (refusé : new row violates row-level security policy for table "actes")
+OK     : Admin : ne saisit pas le taux de change (refusé : new row violates row-level security policy for table "taux_change")
+OK     : Admin : ne peut pas modifier le contenu d'un acte (refusé : L'administrateur ne peut qu'annuler un acte (avec motif), pas le modifier.)
+OK     : Admin : annule un acte avec motif, en son nom
+OK     : Admin : annule un reçu avant la clôture (l'acte est annulé avec)
+OK     : Admin : programme un nouveau tarif dans la grille commune
+OK     : Admin : la vue des écarts est vide aujourd'hui (l'ajustement de Mulongwe n'entre en vigueur que dans 30 jours)
+OK     : Caissier : clôture la journée (2 reçus, 1 annulé par l'admin, 1 exonération)
+OK     : Admin : ne peut plus annuler un reçu après la clôture de la journée (refusé : La caisse du 15/10/2026 est clôturée : ce reçu ne peut plus être annulé.)
+OK     : Admin : désactive un compte
+OK     : Admin : peut interroger la règle des 7 jours pour n'importe quel agent
+OK     : Caissier : voit seulement ses propres connexions (l'échec noté plus haut), pas celles de l'Officier
+OK     : Compte désactivé : ne voit plus rien
+OK     : Compte désactivé : ne peut plus rien créer (refusé : new row violates row-level security policy for table "actes")
+OK     : Un compte désactivé par l'admin perd immédiatement tout accès
+
+== Migration 20261013000900_recherche.sql ==
+   appliquée sans erreur.
+== Tests 09_test_recherche.sql ==
+OK     : ID complet : l'acte exact est trouvé
+OK     : ID en minuscules avec des espaces : trouvé quand même
+OK     : ID sans les zéros (…-1 au lieu de …-000001) : trouvé quand même
+OK     : ID inexistant : aucun résultat
+OK     : Début d'ID (MUL-EXNAIS-année) : liste la série, limitée à 50 résultats par défaut
+OK     : Début d'ID d'une ancienne année : retrouve l'archive de 2019
+OK     : Noms dans un autre ordre (« Bahati Mugisho ») : trouvé
+OK     : Fautes de frappe (« mugiso bahaty ») : trouvé quand même
+OK     : Sans accent (« elise ») : retrouve « Élise Ngoma »
+OK     : En majuscules (« NEEMA ») : retrouve « Neema Furaha »
+OK     : Nom du second époux (« Mapendo ») : retrouve l'acte de mariage
+OK     : Nom du demandeur (« Pierre Mugisho », le père) : retrouve l'acte
+OK     : « Pierre Mugisho » ne remonte pas l'homonyme décédé (Pierre n'y figure pas)
+OK     : Homonymes : les deux actes au même nom sont proposés (naissance et décès)
+OK     : Numéro d'un ancien registre papier (« n° 412 ») : retrouve l'archive
+OK     : Nom inconnu : aucun résultat
+OK     : Moins de 2 caractères : la recherche demande d'en taper davantage (refusé : Tapez au moins 2 caractères pour lancer une recherche.)
+OK     : Le meilleur résultat est classé en premier (« Neema Furaha » devant « Neemaa Furahaa »)
+OK     : Filtre par type d'acte (décès) : seul l'acte de décès reste
+OK     : Filtre par année (2019) : seule l'archive de 2019 reste
+OK     : Filtre par statut (payé) : seul l'acte payé reste
+OK     : Limite choisie (10) : 10 résultats parmi les 300 « Personne … Citoyen »
+OK     : Limite plafonnée à 200 résultats, même si on en demande plus
+OK     : Chaque résultat indique si l'acte a déjà son scan
+OK     : Officier de Kavimvira : ne trouve ni par nom ni par ID les actes de Mulongwe
+OK     : Officier de Kavimvira : trouve les actes de sa propre entité
+OK     : Officier de Mulongwe : ne trouve pas les actes de Kavimvira
+OK     : Admin : cherche dans toutes les entités, avec le code de l'entité dans chaque résultat
+OK     : Visiteur non connecté : ne peut pas rechercher (refusé : permission denied for function rechercher_actes)
+OK     : La recherche par nom utilise l'index rapide (pas de lecture de toute la table)
+OK     : La recherche par début d'ID utilise l'index de l'identifiant
+
+== Migration 20261013001000_rapports.sql ==
+   appliquée sans erreur.
+== Tests 10_test_rapports.sql ==
+OK     : Mois : du 01/10 au 31/10, libellé « Octobre 2026 »
+OK     : Semestre : du 01/07 au 31/12, libellé « 2e semestre 2026 »
+OK     : 1er semestre : du 01/01 au 30/06
+OK     : Année : du 01/01 au 31/12, libellé « Année 2026 »
+OK     : Février d'une année bissextile : se termine bien le 29
+OK     : Jour : libellé « 05/10/2026 »
+OK     : Admin : une ligne par entité, plus une ligne TOTAL
+OK     : Mulongwe, octobre : 4 reçus valides (1 annulé à part) ; 30 $ et 142 500 FC ; équivalent 228 000 FC
+OK     : Mulongwe, octobre : 1 exonération, 18 000 FC non perçus
+OK     : Mulongwe, octobre : 1 journée clôturée, manque de caisse de 5 000 FC signalé
+OK     : Mulongwe, octobre : 6 actes enregistrés, 1 délivré, 5 payés ou exonérés encore sans scan
+OK     : Mulongwe : comparaison avec septembre (85 500 FC) -> +166,7 %
+OK     : Kavimvira, octobre : 1 reçu, 87 000 FC ; pas de variation calculée (septembre à zéro)
+OK     : TOTAL octobre : 5 reçus, 60 $ et 142 500 FC, équivalent 315 000 FC, +268,4 %
+OK     : Rapport journalier du 05/10 (Mulongwe) : 3 reçus valides, 1 annulé, 142 500 FC, journée clôturée
+OK     : Rapport d'une seule entité : pas de ligne TOTAL
+OK     : Semestriel (2e semestre 2026, Mulongwe) : 5 reçus, 313 500 FC ; 1er semestre : 18 000 FC
+OK     : Annuel (2026, Mulongwe) : 6 reçus, 331 500 FC ; 2025 : 84 000 FC -> +294,6 %
+OK     : Extraits de naissance (octobre, Mulongwe) : 2 payés, 171 000 FC, 75 % des recettes
+OK     : Attestations de résidence : 2 payées (1 national, 1 étranger), 1 exonérée, 25 % des recettes
+OK     : Le type d'acte qui rapporte le plus est classé en premier
+OK     : Évolution d'octobre : 31 jours (sans trou), total 228 000 FC
+OK     : Évolution d'octobre : 142 500 FC le 5, une exonération le 6, zéro les jours sans activité
+OK     : Évolution annuelle : 12 mois (de Janvier à Décembre 2026), total 331 500 FC
+OK     : Évolution semestrielle : 6 mois, de juillet à décembre
+OK     : Évolution consolidée (toutes entités) : 315 000 FC en octobre
+OK     : Agent de Kavimvira : le rapport ne contient que sa propre entité, sans ligne TOTAL
+OK     : Agent de Kavimvira : demander explicitement Mulongwe ne donne aucun chiffre
+OK     : Agent de Kavimvira : l'évolution « toutes entités » ne compte que sa propre entité
+OK     : Visiteur non connecté : aucun rapport (refusé : permission denied for function rapport_synthese)
+
+== Migration 20261013001100_donnees_initiales.sql ==
+   appliquée sans erreur.
+== Tests 11_test_donnees_initiales.sql ==
+OK     : Les 4 entités sont installées : Bavira (chefferie), Kalundu, Kavimvira, Mulongwe (communes)
+OK     : 26 actes numérotés de 1 à 26, chacun avec un code unique
+OK     : Chaque acte a sa couleur et est actif
+OK     : Les 6 actes à tarif Étrangers distinct sont les n° 5, 6, 7, 8, 15 et 18 (comme sur la fiche)
+OK     : Fiches de détails : 3 naissance, 4 mariage, 4 décès, 15 simples
+OK     : 32 tarifs (26 nationaux + 6 étrangers), en vigueur au 1er janvier 2026
+OK     : Tarifs nationaux en FC : 17 actes, total de contrôle 231 000 FC (identique à la fiche)
+OK     : Tarifs nationaux en $ : 9 actes, total de contrôle 1 550 $ (identique à la fiche)
+OK     : Tarifs étrangers : 6 actes, total de contrôle 165 000 FC (identique à la fiche)
+OK     : Mulongwe, n° 01 Acte de notoriété supplétif : 60 000 FC
+OK     : Kalundu, n° 05 Attestation de résidence (étranger) : 39 000 FC
+OK     : Bavira, n° 03 Célébration de mariage : 75 $
+OK     : Kavimvira, n° 14 Permis d'exhumation : 500 $
+OK     : N° 12 Attestation de décès à domicile : 9 000 FC (montant ajouté à la main sur la fiche)
+OK     : N° 26 Certificat de vie, pour un étranger : 18 000 FC (pas de tarif étranger distinct)
+OK     : Rejouer le fichier ne crée aucun doublon (4 entités, 26 actes, 32 tarifs)
+OK     : Parcours — Officier : 2 actes enregistrés et transmis ; prix tirés de la grille (30 $ et 39 000 FC)
+OK     : Parcours — Caissier : 85 500 FC (30 $ payés en francs) + 39 000 FC = 124 500 FC encaissés
+OK     : Parcours — Officier : extrait délivré, scanné, et retrouvé par la recherche « bahati mugisho »
+OK     : Parcours — Clôture : 2 reçus, caisse juste, 1 acte payé sans scan signalé (l'attestation)
+OK     : Parcours — Admin : rapport du jour pour les 4 entités + TOTAL ; Mulongwe = 124 500 FC
+OK     : Parcours — Admin : chaque geste de l'Officier et du Caissier figure au journal d'audit
+
+== Migration 20261013001200_ajustements_maquettes.sql ==
+   appliquée sans erreur.
+== Tests 12_test_ajustements_maquettes.sql ==
+OK     : Les 5 autorisations et permis passent à l'orange foncé #BF360C (texte blanc lisible)
+OK     : Les 2 certificats passent au turquoise foncé #00727C
+OK     : Plus aucune ancienne teinte trop claire
+OK     : Caissier : un renvoi sans motif est refusé (refusé : Indiquez le motif du renvoi, pour que l'Officier sache quoi corriger.)
+OK     : Caissier : un renvoi avec un motif vide est refusé (refusé : Indiquez le motif du renvoi, pour que l'Officier sache quoi corriger.)
+OK     : Caissier : en renvoyant, il ne peut toujours rien modifier d'autre (refusé : Le Caissier ne peut que renvoyer à l'Officier un acte en attente de paiement.)
+OK     : Caissier : renvoi accepté avec son motif, sa date et son auteur
+OK     : Officier : voit le motif du renvoi pour savoir quoi corriger
+OK     : Officier : ne peut pas réécrire le motif du renvoi
+OK     : Officier : corrige le nom et retransmet ; le motif est soldé
+OK     : Caissier : un second renvoi exige à nouveau un motif (refusé : Indiquez le motif du renvoi, pour que l'Officier sache quoi corriger.)
+OK     : Le motif du renvoi reste au journal d'audit, même après avoir été soldé
+
+== Migration 20261013001300_renommage_comptes_desactives.sql ==
+   appliquée sans erreur.
+== Tests 13_test_renommage_comptes_desactives.sql ==
+OK     : Désactivation : « bavira.caissier » devient « bavira.caissier.ancien20261015 », l'ancien nom est conservé
+OK     : Le remplaçant reçoit le nom habituel « bavira.caissier »
+OK     : Deuxième désactivation le même jour : « …ancien20261015.2 », sans doublon
+OK     : Réactivation : le compte redevient actif et garde son nom d'archive (l'admin peut le renommer)
+OK     : L'admin peut redonner au compte réactivé son nom habituel
+OK     : Une modification ordinaire d'un compte actif ne le renomme pas
+OK     : Le renommage figure au journal d'audit, avec l'ancien et le nouveau nom
+OK     : Le nom d'archive suit le format nom.ancienAAAAMMJJ
+
+== Migration 20261013001400_mot_de_passe_reellement_change.sql ==
+   appliquée sans erreur.
+== Tests 14_test_mot_de_passe_reellement_change.sql ==
+OK     : Compte créé avec mot de passe provisoire : son empreinte est notée
+OK     : Compte sans obligation : aucune empreinte
+OK     : L'empreinte est un condensé de 64 caractères, sans rien du mot de passe chiffré
+OK     : L'agent ne peut pas lever l'obligation en gardant le mot de passe provisoire (refusé : Le mot de passe provisoire n'a pas été remplacé : choisissez d'abord un nouveau mot de passe.)
+OK     : … l'obligation est toujours là
+OK     : Mot de passe réellement changé : l'obligation est levée
+OK     : … et l'empreinte du provisoire est effacée
+OK     : Deuxième réinitialisation : l'empreinte suit le NOUVEAU mot de passe provisoire
+OK     : … et l'agent doit bien remplacer ce nouveau provisoire (refusé : Le mot de passe provisoire n'a pas été remplacé : choisissez d'abord un nouveau mot de passe.)
+OK     : Changer le nom complet ne modifie pas le suivi du mot de passe provisoire
+OK     : Même l'administrateur ne peut pas lire les empreintes (refusé : permission denied for table mots_de_passe_provisoires)
+OK     : Ni calculer l'empreinte d'un compte (refusé : permission denied for function empreinte_mot_de_passe)
+OK     : Un visiteur non connecté ne peut pas appeler la fonction (refusé : permission denied for function mot_de_passe_change)
+OK     : Agent sans obligation : appel sans effet ni erreur
+
+== Migration 20261013001500_double_verification_exigee.sql ==
+   appliquée sans erreur.
+== Tests 15_test_double_verification_exigee.sql ==
+OK     : La base lit le niveau « aal1 » dans le jeton
+OK     : Admin sans code : son rôle n'est pas reconnu
+OK     : Admin sans code : ne voit aucune entité
+OK     : Admin sans code : ne voit aucun acte
+OK     : Admin sans code : ne voit pas le journal d'audit
+OK     : Admin sans code : ne voit que son propre profil (pas les autres comptes)
+OK     : Admin sans code : ne peut pas créer de compte (refusé : new row violates row-level security policy for table "utilisateurs")
+OK     : Admin sans code : sa tentative de désactiver un agent n'a eu aucun effet
+OK     : Admin sans code : peut noter sa connexion et lire ses propres connexions
+OK     : Jeton sans niveau indiqué : considéré comme « mot de passe seul »
+OK     : Admin avec code : rôle reconnu
+OK     : Admin avec code : voit les 4 entités
+OK     : Admin avec code : voit tous les comptes
+OK     : Officier (sans double vérification) : reconnu avec son mot de passe seul
+OK     : Officier : voit son entité
+OK     : Caissier avec double vérification, sans code : aucun droit
+OK     : Caissier avec double vérification, après le code : ses droits habituels
+OK     : Compte désactivé : aucun droit, même avec le code
+
+== Migration 20261013001600_mot_de_passe_provisoire_sans_droits.sql ==
+   appliquée sans erreur.
+== Tests 16_test_mot_de_passe_provisoire_sans_droits.sql ==
+OK     : Mot de passe provisoire : le rôle et l'entité ne sont pas reconnus
+OK     : Mot de passe provisoire : ne voit pas son entité
+OK     : Mot de passe provisoire : ne voit aucun acte
+OK     : Mot de passe provisoire : ne voit pas le catalogue
+OK     : … mais lit toujours son propre profil (l'écran sait ainsi qu'il doit changer son mot de passe)
+OK     : … et peut noter sa connexion au journal
+OK     : Mot de passe remplacé : l'officier retrouve son rôle et son entité
+OK     : … et voit son entité
+OK     : Avant réinitialisation : le caissier a ses droits
+OK     : Après réinitialisation : même avec un jeton encore valable, plus aucun droit sur les données
+OK     : Administrateur vérifié : rôle reconnu
+
+== Migration 20261014001700_dates_d_effet_des_tarifs.sql ==
+   appliquée sans erreur.
+== Tests 17_test_dates_d_effet_des_tarifs.sql ==
+OK     : Grille commune : un tarif pour aujourd'hui est refusé (refusé : Un nouveau tarif entre en vigueur au plus tôt demain (le 16/10/2026) : les prix ne changent jamais en cours de journée, ni dans le passé.)
+OK     : Grille commune : un tarif daté d'hier (réécrire l'historique) est refusé (refusé : Un nouveau tarif entre en vigueur au plus tôt demain (le 16/10/2026) : les prix ne changent jamais en cours de journée, ni dans le passé.)
+OK     : Grille commune : sans date, la date par défaut (aujourd'hui) est refusée (refusé : Un nouveau tarif entre en vigueur au plus tôt demain (le 16/10/2026) : les prix ne changent jamais en cours de journée, ni dans le passé.)
+OK     : Grille commune : un tarif programmé pour demain est accepté
+OK     : Changement à venir : on ne peut pas l'avancer à aujourd'hui (refusé : Un nouveau tarif entre en vigueur au plus tôt demain (le 16/10/2026) : les prix ne changent jamais en cours de journée, ni dans le passé.)
+OK     : Changement à venir : on peut le reporter et corriger son montant
+OK     : Entité : un ajustement pour aujourd'hui est refusé (refusé : Un nouveau tarif entre en vigueur au plus tôt demain (le 16/10/2026) : les prix ne changent jamais en cours de journée, ni dans le passé.)
+OK     : Entité : un retour à la grille commune antidaté est refusé (refusé : Un nouveau tarif entre en vigueur au plus tôt demain (le 16/10/2026) : les prix ne changent jamais en cours de journée, ni dans le passé.)
+OK     : Entité : un ajustement programmé pour demain est accepté
+OK     : … et le prix d'aujourd'hui ne change pas (18 000 FC)
+OK     : … le nouveau prix s'applique à partir de demain (20 000 FC)
+OK     : Taux : saisi maintenant, il s'applique tout de suite
+OK     : Taux : antidaté d'une heure, refusé (refusé : Le taux du jour prend effet au moment où il est saisi : il ne peut être ni antidaté ni programmé à l'avance.)
+OK     : Taux : programmé pour demain, refusé (refusé : Le taux du jour prend effet au moment où il est saisi : il ne peut être ni antidaté ni programmé à l'avance.)
+OK     : Maintenance de la base : l'administrateur technique peut reprendre un ancien tarif
+
+== Migration 20261014001800_catalogue_protege.sql ==
+   appliquée sans erreur.
+== Tests 18_test_catalogue_protege.sql ==
+OK     : Ajout : le type d'acte est au catalogue
+OK     : Ajout : avec ses deux prix (National et Étranger), dès demain
+OK     : Ajout : le bon prix est trouvé à partir de demain
+OK     : Ajout : aujourd'hui, pas encore de prix (au plus tôt demain)
+OK     : Ajout : un prix pour aujourd'hui est refusé (refusé : Un nouveau tarif entre en vigueur au plus tôt demain (le 16/10/2026) : les prix ne changent jamais en cours de journée, ni dans le passé.)
+OK     : … et le type d'acte n'est pas créé non plus (tout ou rien)
+OK     : Ajout : tarif Étrangers distinct mais non indiqué (refusé : Cet acte a un tarif Étrangers distinct : indiquez-le aussi.)
+OK     : Ajout : sans prix, refusé (refusé : Un nouveau type d'acte a toujours un prix : indiquez le tarif National.)
+OK     : Ajout : numéro déjà pris (refusé : duplicate key value violates unique constraint "types_actes_numero_key")
+OK     : Ajout : code déjà pris (refusé : duplicate key value violates unique constraint "types_actes_code_key")
+OK     : Ajout : code avec tiret ou chiffre refusé (refusé : new row for relation "types_actes" violates check constraint "types_actes_code_format")
+OK     : Correction : libellé, famille et couleur se corrigent
+OK     : Retirer : un type d'acte se retire du catalogue
+OK     : Remettre : et se remet
+OK     : Figé : le code (refusé : Le code, le numéro, le modèle de fiche et le tarif Étrangers d'un type d'acte sont fixés à sa création. Seuls le libellé, la famille et la couleur se corrigent.)
+OK     : Figé : le numéro (refusé : Le code, le numéro, le modèle de fiche et le tarif Étrangers d'un type d'acte sont fixés à sa création. Seuls le libellé, la famille et la couleur se corrigent.)
+OK     : Figé : le modèle de fiche (refusé : Le code, le numéro, le modèle de fiche et le tarif Étrangers d'un type d'acte sont fixés à sa création. Seuls le libellé, la famille et la couleur se corrigent.)
+OK     : Figé : le tarif Étrangers distinct (refusé : Le code, le numéro, le modèle de fiche et le tarif Étrangers d'un type d'acte sont fixés à sa création. Seuls le libellé, la famille et la couleur se corrigent.)
+OK     : Jamais de suppression, même d'un type d'acte tout neuf (refusé : Un type d'acte ne se supprime jamais : retirez-le du catalogue. Il reste dans l'historique des actes et des prix.)
+OK     : Officier : ne peut pas ajouter de type d'acte (refusé : Action réservée à l'administrateur connecté avec son code de vérification.)
+OK     : Administrateur sans le code à 6 chiffres : refusé (refusé : Action réservée à l'administrateur connecté avec son code de vérification.)
+OK     : Maintenance de la base : une correction technique reste possible
+
+== Migration 20261014001900_enregistrement_des_actes.sql ==
+   appliquée sans erreur.
+== Tests 19_test_enregistrement_des_actes.sql ==
+OK     : Naissance : acte enregistré et transmis, ID et prix calculés par la base, nom nettoyé
+OK     : Naissance : la fiche est enregistrée avec l'acte
+OK     : Date de l'acte et année de l'ID : celles du jour à Uvira (pas l'heure universelle)
+OK     : Les contrôles « pas dans le futur » comptent en heure d'Uvira
+OK     : Titulaire sans nom : refusé avec un message clair (refusé : Le nom complet du titulaire de l'acte est obligatoire.)
+OK     : Acte transmis au Caissier : il ne se corrige pas tant qu'il n'est pas renvoyé (refusé : Seul un acte « enregistré » (pas encore transmis, ou renvoyé par le Caissier) se corrige ici. Pour un acte déjà transmis, demandez au Caissier de vous le renvoyer.)
+OK     : Naissance : sans date de naissance, refusé (refusé : Fiche de naissance : le sexe et la date de naissance sont obligatoires.)
+OK     : Naissance : date de naissance dans le futur, refusé (refusé : new row for relation "details_naissance" violates check constraint "details_naissance_date_naissance_check")
+OK     : … et aucun acte à moitié enregistré n'est resté (tout ou rien)
+OK     : Mariage : sans le second époux, refusé (refusé : Fiche de mariage : les noms des deux époux et la date de célébration sont obligatoires.)
+OK     : Mariage : deux époux et fiche ; non transmis, il reste « enregistré »
+OK     : Décès : fiche avec l'âge et le déclarant
+OK     : Attestation (fiche simple) : tarif Étranger ; les informations d'une autre fiche sont ignorées
+OK     : Type retiré du catalogue : refusé (refusé : Type d'acte inconnu ou désactivé.)
+OK     : Correction après renvoi : acte et fiche corrigés, retransmis ; l'ID ne change pas
+OK     : Correction d'un mariage : le second époux reste obligatoire (refusé : Fiche de mariage : les noms des deux époux et la date de célébration sont obligatoires.)
+OK     : Acte annulé : plus aucune correction (refusé : Cet acte est annulé : il ne peut plus être modifié.)
+OK     : Caissier : ne peut pas enregistrer d'acte (refusé : Seul l'Officier d'état civil peut enregistrer un acte.)
+OK     : Administrateur : ne peut pas enregistrer d'acte (refusé : Seul l'Officier d'état civil peut enregistrer un acte.)
+OK     : Officier d'une autre entité : ne peut pas corriger un acte de Mulongwe (refusé : Acte introuvable.)
+OK     : Officier de Kavimvira : son acte est rangé dans SON entité (KAV)
+
+== Migration 20261014002000_fiche_d_un_acte.sql ==
+   appliquée sans erreur.
+== Tests 20_test_fiche_d_un_acte.sql ==
+OK     : Transmission : l'heure est notée dès l'enregistrement transmis
+OK     : … et pas pour un acte resté « enregistré »
+OK     : Transmission plus tard : l'heure est notée à ce moment-là
+OK     : Agents : l'officier voit les noms de son entité (et de l'administrateur), pas ceux de Kavimvira
+OK     : Agents : l'administrateur voit tous les noms
+OK     : Agents : personne de connecté, aucun nom
+OK     : Payé : l'officier ne peut pas l'annuler (refusé : Un acte payé ne s'annule que par le Caissier, en annulant son reçu (avant la clôture de la journée) : l'argent et l'acte restent ainsi d'accord.)
+OK     : Payé : le reste de l'acte est figé (refusé : Après le paiement, seule l'orthographe des noms se corrige (avec un motif). La fiche, la catégorie et le prix sont figés.)
+OK     : Payé : un nom ne change pas sans motif (refusé : Indiquez le motif de la correction : elle est inscrite au journal d'audit.)
+OK     : Payé : la fiche de détails est figée (refusé : Après le paiement, la fiche de détails est figée : seule l'orthographe des noms se corrige.)
+OK     : Correction d'un nom : motif obligatoire (refusé : Indiquez le motif de la correction : elle est inscrite au journal d'audit.)
+OK     : Correction d'un nom : réservée aux actes payés (les autres ont la fiche complète) (refusé : Cette correction concerne les actes payés, exonérés ou délivrés de votre entité. Un acte « enregistré » se corrige par sa fiche complète.)
+OK     : Correction d'un nom : faite, avec le motif, l'auteur et l'heure ; le statut ne change pas
+OK     : … inscrite au journal d'audit, motif et auteur compris
+OK     : Délivré : l'officier le marque quand il remet le document
+OK     : Délivré : l'orthographe d'un nom se corrige encore (avec motif)
+OK     : Délivré : l'officier ne peut pas l'annuler non plus (refusé : Un acte payé ne s'annule que par le Caissier, en annulant son reçu (avant la clôture de la journée) : l'argent et l'acte restent ainsi d'accord.)
+OK     : Pas encore payé : l'officier peut l'annuler, avec motif
+OK     : Autre entité : refusé (refusé : Cette correction concerne les actes payés, exonérés ou délivrés de votre entité. Un acte « enregistré » se corrige par sa fiche complète.)
+OK     : Annulation du reçu par le Caissier : l'acte payé est annulé avec lui
+OK     : Administrateur : peut toujours annuler un acte payé
+
+== Migration 20261014002100_archivage_par_fichier.sql ==
+   appliquée sans erreur.
+== Tests 21_test_archivage_par_fichier.sql ==
+OK     : Espace « archives » : PDF seulement, 15 Mo au plus
+OK     : Officier : peut déposer à l'emplacement prévu de l'acte payé P
+OK     : … pas sous « -v2 » tant que la version 1 n'existe pas
+OK     : … pas en JPEG
+OK     : … pas sous un autre nom
+OK     : … pas dans un autre dossier
+OK     : … pas pour un acte pas encore payé
+OK     : … pas pour un acte de Kavimvira
+OK     : Officier : dépose le fichier de P
+OK     : Officier : ne peut rien déposer pour un acte en attente de paiement (refusé : new row violates row-level security policy for table "objects")
+OK     : Officier : ne peut rien déposer sous un nom libre (refusé : new row violates row-level security policy for table "objects")
+OK     : Envoi repris : le fichier pas encore enregistré peut être remplacé
+OK     : Caissier : ne dépose pas de scan
+OK     : Administrateur : ne dépose pas de scan
+OK     : Avant l'envoi : fichier jamais vu, aucun message
+OK     : Avant l'envoi : empreinte mal formée refusée (refusé : Empreinte invalide.)
+OK     : Avant l'envoi : acte d'une autre entité « introuvable » (refusé : Acte introuvable.)
+OK     : Enregistrement : un scan qui n'est pas un PDF est refusé (refusé : Le scan d'un acte doit être un fichier PDF.)
+OK     : Enregistrement : version 1, taille lue dans le fichier réellement déposé (210 000 et non 999 octets déclarés)
+OK     : Fichier archivé : ne peut plus être remplacé, même par l'Officier
+OK     : Doublon dans la même entité : l'ID de l'autre acte est indiqué
+OK     : Même fichier pour le même acte : rien à remplacer
+OK     : Doublon : l'enregistrement est refusé aussi par la base (refusé : Ce fichier est déjà enregistré pour l'acte MUL-EXNAIS-2026-000001. Vérifiez que vous avez scanné le bon document.)
+OK     : Doublon dans une autre entité : message sans l'ID de l'acte
+OK     : Refaire le scan : nouvel emplacement « -v2.pdf » autorisé
+OK     : Refaire le scan : motif obligatoire (refusé : new row for relation "documents_scannes" violates check constraint "documents_remplacement_motive")
+OK     : Refaire le scan : la version 2 fait foi, avec son motif ; la version 1 est gardée
+OK     : Le format du fichier réellement déposé fait foi (refusé : Le fichier déposé n'est pas un PDF.)
+OK     : Droits : contrôle d'empreinte réservé aux agents connectés ; message interne non appelable
+
+== Migration 20261014002200_photos_par_telephone.sql ==
+   appliquée sans erreur.
+== Tests 22_test_photos_par_telephone.sql ==
+OK     : Lien : secret de 256 bits, utilisable dans une adresse
+OK     : Lien : valable 10 minutes
+OK     : Lien : refusé pour un acte pas encore payé (refusé : L'acte MUL-EXNAIS-2026-000002 n'est pas encore payé ni exonéré : le scan se fait après l'établissement de l'acte signé.)
+OK     : Tables : aucun accès direct, même pour l'Officier (refusé : permission denied for table transferts_photo)
+OK     : Base : seule l'empreinte du secret est gardée
+OK     : Lien : le Caissier ne peut pas en créer (refusé : Seul l'Officier de l'entité peut photographier un acte.)
+OK     : Lien : l'Officier d'une autre entité ne voit pas l'acte (refusé : Acte introuvable.)
+OK     : Téléphone : voit l'acte à photographier
+OK     : Téléphone : un autre secret ne donne rien (refusé : Ce lien n'est plus valable (il dure 10 minutes). Affichez un nouveau QR code sur l'ordinateur.)
+OK     : Téléphone : dépose 2 pages
+OK     : Téléphone : seulement des photos JPEG (refusé : Photo illisible : seules les photos JPEG sont acceptées.)
+OK     : Téléphone : contenu illisible refusé (refusé : Photo illisible.)
+OK     : Téléphone : dimensions invalides refusées (refusé : Dimensions de la photo invalides.)
+OK     : Téléphone : ne peut pas créer de lien (refusé : permission denied for function creer_transfert_photo)
+OK     : Téléphone : ne peut pas reprendre les pages (refusé : permission denied for function recuperer_pages_photo)
+OK     : Ordinateur : le Caissier ne reprend pas les pages (refusé : Envoi introuvable.)
+OK     : Ordinateur : reçoit les 2 pages, dans l'ordre, intactes
+OK     : Ordinateur : une page reprise n'est pas renvoyée (effacée)
+OK     : Base : aucune photo ne reste après reprise
+OK     : Téléphone : 10 pages au plus (refusé : 10 pages au plus par envoi.)
+OK     : Téléphone : envoi terminé
+OK     : Téléphone : plus rien après « terminé » (refusé : L'envoi est déjà terminé : continuez sur l'ordinateur.)
+OK     : Téléphone : lien expiré après 10 minutes (refusé : Ce lien n'est plus valable (il dure 10 minutes). Affichez un nouveau QR code sur l'ordinateur.)
+OK     : Ménage : les transferts expirés depuis plus d'une heure sont effacés, avec leurs pages
+
+== Migration 20261014002300_anciens_registres.sql ==
+   appliquée sans erreur.
+== Tests 23_test_anciens_registres.sql ==
+OK     : Lot : ouvert pour l'entité de l'Officier, description nettoyée
+OK     : Lot : année future refusée (refusé : Année du registre invalide (de 1900 à l'année en cours).)
+OK     : Lot : description obligatoire (refusé : Décrivez le registre, par exemple « Registre des naissances 2019, volume 1 ».)
+OK     : Lot : le Caissier ne peut pas en ouvrir (refusé : Seul l'Officier de l'entité peut ouvrir un lot d'anciens registres.)
+OK     : Ancien acte : ID normal, « délivré », sans montant, rattaché au lot, n° du registre gardé
+OK     : Doublon : le même n° (écrit autrement) est refusé, avec l'ID existant (refusé : Le n° 412 du registre 2019 est déjà numérisé : MUL-EXNAIS-2019-000001.)
+OK     : « 412 bis » est un autre acte
+OK     : Date hors de l'année du registre refusée (refusé : La date doit être en 2019, l'année de ce registre.)
+OK     : N° du registre obligatoire (refusé : Indiquez le n° de l'acte dans le registre papier.)
+OK     : Nom obligatoire (refusé : Indiquez le nom du titulaire.)
+OK     : Mariage : les deux époux sont obligatoires (refusé : Indiquez le nom des deux époux.)
+OK     : Mariage : les deux époux sont gardés
+OK     : Le lot d'un acte ne change jamais (refusé : Le lot d'un acte ne peut pas être changé.)
+OK     : Lot d'une autre entité : introuvable (refusé : Lot introuvable.)
+OK     : Kavimvira ne voit pas les lots de Mulongwe
+OK     : Vue des lots : 2 actes, aucun scan
+OK     : Fermeture refusée tant qu'un acte n'a pas son scan (refusé : 2 acte(s) de ce lot n'ont pas encore leur scan : joignez-les avant de fermer le lot.)
+OK     : Avant de créer un ancien acte : le même fichier déjà archivé est repéré
+OK     : Scan du lot : rangé sous MUL/2019/…, compté dans le lot
+OK     : Tout est scanné : le lot se ferme
+OK     : Lot fermé : plus aucun acte (refusé : Ce lot est fermé : il n'accepte plus d'actes.)
+OK     : Recherche : l'ancien acte est trouvé par son nom
+
+== Migration 20261014002400_encaissement.sql ==
+   appliquée sans erreur.
+== Tests 24_test_encaissement.sql ==
+OK     : Conversion : 30 $ × 2 850 = 85 500 FC (déjà rond)
+OK     : Conversion : 7 182,5 FC → 7 200 FC
+OK     : Conversion : 71 250 FC → 71 300 FC (la moitié monte)
+OK     : Conversion : 28 140 FC → 28 100 FC
+OK     : Conversion : jamais moins de 100 FC
+OK     : Tarif en francs : inchangé
+OK     : Dollars sans taux : vide
+OK     : Montants lisibles dans les messages
+OK     : Officier : la catégorie d'un acte transmis ne change plus (le prix non plus) (refusé : Cet acte est chez le Caissier (en attente de paiement) : il ne peut plus être modifié. Demandez au Caissier de vous le renvoyer, ou annulez-le.)
+OK     : Officier : le nom d'un acte transmis ne change plus (refusé : Cet acte est chez le Caissier (en attente de paiement) : il ne peut plus être modifié. Demandez au Caissier de vous le renvoyer, ou annulez-le.)
+OK     : Officier : il ne reprend pas lui-même un acte transmis (refusé : Cet acte est chez le Caissier (en attente de paiement) : il ne peut plus être modifié. Demandez au Caissier de vous le renvoyer, ou annulez-le.)
+OK     : Officier : il peut encore annuler un acte transmis (avec motif)
+OK     : Officier : un acte pas encore transmis se modifie toujours
+OK     : Acte en francs : paiement en dollars refusé (refusé : Cet acte est au tarif en francs : il se paie en francs congolais.)
+OK     : Acte en francs payé en francs, sans taux du jour : aucun taux sur le reçu
+OK     : Acte en dollars sans aucun taux : refusé (refusé : Aucun taux de change n'est saisi pour cette entité : enregistrez le taux du jour avant d'encaisser.)
+OK     : Montant annoncé dépassé par un nouveau taux : rien n'est encaissé (refusé : Le montant à percevoir a changé (nouveau taux du jour) : 86 200 FC au lieu de 85 500 FC. Rien n'a été encaissé ; vérifiez le nouveau montant puis validez de nouveau.)
+OK     : … l'acte reste en attente et aucun numéro de reçu n'est consommé
+OK     : Acte en dollars payé en francs : 30 $ × 2 873 = 86 190 → 86 200 FC, taux sur le reçu
+OK     : Acte en dollars payé en dollars : 30 $, équivalent arrondi pour les rapports
+OK     : Monnaie obligatoire (refusé : Indiquez la monnaie et le montant à percevoir.)
+OK     : Officier : pas d'encaissement (refusé : new row violates row-level security policy for table "recus")
+
+== Migration 20261015002500_recus_imprimes.sql ==
+   appliquée sans erreur.
+== Tests 25_test_recus_imprimes.sql ==
+OK     : Jeton : 32 caractères aléatoires, différent pour chaque reçu
+OK     : Jeton : ne se change pas (refusé : Un reçu ne peut pas être modifié. Seule l'annulation, avec motif, est possible.)
+OK     : Impression : la première est l'original (n° 1)
+OK     : Téléchargement PDF ensuite : duplicata n° 2
+OK     : Chaque reçu a sa propre numérotation
+OK     : Le Caissier voit les impressions de son entité
+OK     : Forme inconnue refusée (refusé : Forme d'impression inconnue.)
+OK     : Pas d'écriture directe dans les impressions (refusé : new row violates row-level security policy for table "impressions_recus")
+OK     : Caissier d'une autre entité : reçu introuvable (refusé : Reçu introuvable.)
+OK     : … et il ne voit pas les impressions de Mulongwe
+OK     : Officier : n'imprime pas les reçus (refusé : Reçu introuvable.)
+OK     : Administrateur : peut réimprimer (duplicata n° 3)
+OK     : Chaque impression est inscrite au journal d'audit
+OK     : Une impression ne s'efface pas (refusé : Suppression interdite sur « impressions_recus » : cet enregistrement est définitif.)
+OK     : Vérification sans connexion : n°, entité, montant, statut « valide »
+OK     : Jeton inconnu : rien
+OK     : Jeton mal formé : rien
+OK     : Sans connexion : aucun accès direct aux reçus (refusé : permission denied for table recus)
+OK     : Le reçu n° 2 est annulé par le Caissier
+OK     : Reçu annulé : la vérification le dit
+OK     : L'annulation garde le jeton
+
+== Migration 20261015002600_annulation_recus.sql ==
+   appliquée sans erreur.
+== Tests 26_test_annulation_recus.sql ==
+OK     : Motif trop court refusé (refusé : Indiquez le motif de l'annulation (3 caractères au moins).)
+OK     : Annulation avec remise en file
+OK     : Le reçu est annulé (motif nettoyé) ; l'acte revient « en attente de paiement »
+OK     : Nouveau reçu pour le même acte : deux reçus, un seul valide ; l'acte est payé
+OK     : Jamais deux reçus valides pour un acte (refusé : Seul un acte « en attente de paiement » peut être encaissé (statut actuel : paye).)
+OK     : Annulation simple (par défaut : l'acte est annulé)
+OK     : L'acte est annulé avec le motif du reçu
+OK     : Officier : ne remet pas lui-même un acte payé dans la file (refusé : Passage de « paye » à « en_attente_paiement » non autorisé.)
+OK     : Acte déjà délivré : pas de remise en file (refusé : Cet acte est déjà « délivré » : il ne peut pas revenir dans la file. Annulez le reçu en annulant aussi l'acte.)
+OK     : … et le reçu reste valide
+OK     : La suite ne se change pas sans annuler (refusé : Un reçu ne peut pas être modifié. Seule l'annulation, avec motif, est possible.)
+OK     : Clôture de la journée
+OK     : Journée clôturée : aucune annulation (refusé : La caisse du 15/10/2026 est clôturée : ce reçu ne peut plus être annulé.)
+
+== TOUS LES TESTS SONT PASSÉS ==

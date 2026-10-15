@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Caissier — Accueil</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F6F9;color:#14213D;font-family:'Source Sans 3',system-ui,sans-serif}
+a{color:#0B3D91}a:hover{color:#072A66}
+button:focus-visible,a:focus-visible{outline:3px solid #8DB4F2;outline-offset:1px}
+.nav a{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:8px;color:#D6E2F7;text-decoration:none;font-size:16px;font-weight:500}
+.nav a:hover{background:#0F4AA8;color:#FFFFFF}
+.nav a.actif{background:#FFFFFF;color:#0B3D91;font-weight:700}
+.id{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:15px}
+th{text-align:left;font-size:13px;font-weight:700;color:#4A5568;text-transform:uppercase;letter-spacing:0.05em;padding:10px 16px;border-bottom:1px solid #D9DFE8}
+td{padding:14px 16px;border-bottom:1px solid #EDF0F5;font-size:16px;vertical-align:middle}
+.tuile{background:#FFFFFF;border:1px solid #D9DFE8;border-radius:10px;padding:20px 22px;display:flex;flex-direction:column;gap:6px}
+.tuile span:first-child{font-size:15px;color:#4A5568}
+.tuile strong{font-size:34px;font-weight:700}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column">
+  <div style="display: flex; height: 6px" aria-hidden="true">
+    <div style="flex: 6; background: #0B7BD8"></div><div style="flex: 1; background: #F7D618"></div><div style="flex: 2; background: #C8102E"></div><div style="flex: 1; background: #F7D618"></div><div style="flex: 6; background: #0B7BD8"></div>
+  </div>
+  <div style="flex: 1; display: flex; flex-wrap: wrap">
+
+    <nav class="nav" aria-label="Menu principal" style="flex: 1 1 240px; max-width: 280px; background: #0B3D91; padding: 28px 16px; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box">
+      <div style="padding: 0 16px 24px; display: flex; flex-direction: column; gap: 4px">
+        <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; font-weight: 700; color: #FFFFFF">État civil · Uvira</span>
+        <span style="font-size: 14px; color: #B9CBEB">Commune de Mulongwe · Caisse</span>
+      </div>
+      <a href="#" class="actif">Accueil</a>
+      <a href="Caissier-Encaissement.dc.html">Encaisser</a>
+      <a href="#">Reçus du jour</a>
+      <a href="#">Taux du jour</a>
+      <a href="Caissier-Cloture.dc.html">Clôture de caisse</a>
+      <a href="Caissier-Rapports.dc.html">Rapports</a>
+      <a href="#">Rechercher</a>
+      <div style="flex: 1"></div>
+      <a href="Main.dc.html">Se déconnecter</a>
+    </nav>
+
+    <main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+      <header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 40px; background: #FFFFFF; border-bottom: 1px solid #D9DFE8">
+        <span style="font-size: 16px; color: #4A5568">Mardi 13 octobre 2026 · journée de caisse ouverte</span>
+        <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap">
+          <span style="display: flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: #E8F5EC; color: #1B5E20; font-size: 14px; font-weight: 700"><span style="width: 9px; height: 9px; border-radius: 50%; background: #2E7D32" aria-hidden="true"></span>En ligne</span>
+          <span style="font-size: 16px"><strong>Neema Furaha</strong> · Caissier</span>
+        </div>
+      </header>
+
+      <sc-if value="{{avecTaux}}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 16px 40px; background: #E6EDF8; border-bottom: 1px solid #C5D4EE">
+          <span style="font-size: 18px">Taux du jour : <strong style="font-size: 22px">2 850 FC pour 1 $</strong> <span style="color: #4A5568">· saisi à 07 h 58</span></span>
+          <button type="button" style="height: 44px; padding: 0 18px; border: 1px solid #0B3D91; border-radius: 8px; background: #FFFFFF; color: #0B3D91; font-family: inherit; font-size: 16px; font-weight: 700">Mettre à jour le taux</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{sansTaux}}" hint-placeholder-val="{{ false }}">
+        <div role="alert" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 16px 40px; background: #FDECEC; border-bottom: 1px solid #E8A3A3; color: #8A1C1C">
+          <span style="font-size: 18px"><strong>Aucun taux saisi aujourd'hui.</strong> Les actes en dollars ne peuvent pas être encaissés.</span>
+          <button type="button" style="height: 44px; padding: 0 18px; border: 0; border-radius: 8px; background: #8A1C1C; color: #FFFFFF; font-family: inherit; font-size: 16px; font-weight: 700">Saisir le taux du jour</button>
+        </div>
+      </sc-if>
+
+      <div style="padding: 32px 40px 48px; display: flex; flex-direction: column; gap: 28px; max-width: 1560px; box-sizing: border-box; width: 100%">
+        <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px">
+          <div class="tuile"><span>Encaissé en dollars</span><strong>60 $</strong></div>
+          <div class="tuile"><span>Encaissé en francs</span><strong>223 500 FC</strong></div>
+          <div class="tuile"><span>Total en équivalent FC</span><strong>394 500 FC</strong></div>
+          <div class="tuile"><span>Reçus émis</span><strong>7</strong><span style="font-size: 15px; color: #8A1C1C">dont 1 annulé</span></div>
+        </div>
+
+        <section style="background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; overflow: hidden">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; gap: 12px; flex-wrap: wrap">
+            <h1 style="margin: 0; font-size: 22px; font-weight: 700">À encaisser <span style="color: #4A5568; font-weight: 500">(3 actes transmis par l'Officier)</span></h1>
+          </div>
+          <div style="overflow-x: auto">
+            <table style="width: 100%; border-collapse: collapse; min-width: 900px">
+              <thead><tr><th>Transmis à</th><th>ID de l'acte</th><th>Type</th><th>Titulaire</th><th>Montant dû</th><th></th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>08 h 15</td>
+                  <td class="id">MUL-EXNAIS-2026-000124</td>
+                  <td><span style="display: inline-block; padding: 4px 10px; border-radius: 6px; background: #2E7D32; color: #FFFFFF; font-size: 14px; font-weight: 700">Extrait de naissance</span></td>
+                  <td>Mapendo Grace</td>
+                  <td style="font-weight: 700; font-size: 18px">30 $</td>
+                  <td style="text-align: right; white-space: nowrap">
+                    <button type="button" style="height: 44px; padding: 0 14px; margin-right: 8px; border: 1px solid #A9B4C4; border-radius: 8px; background: #FFFFFF; color: #14213D; font-family: inherit; font-size: 15px">Renvoyer…</button>
+                    <a href="Caissier-Encaissement.dc.html" style="display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 8px; background: #0B3D91; color: #FFFFFF; font-weight: 700; text-decoration: none">Encaisser</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>08 h 40</td>
+                  <td class="id">MUL-ATRES-2026-000089</td>
+                  <td><span style="display: inline-block; padding: 4px 10px; border-radius: 6px; background: #1565C0; color: #FFFFFF; font-size: 14px; font-weight: 700">Attestation de résidence</span></td>
+                  <td>Byamungu Amani</td>
+                  <td style="font-weight: 700; font-size: 18px">18 000 FC</td>
+                  <td style="text-align: right; white-space: nowrap">
+                    <button type="button" style="height: 44px; padding: 0 14px; margin-right: 8px; border: 1px solid #A9B4C4; border-radius: 8px; background: #FFFFFF; color: #14213D; font-family: inherit; font-size: 15px">Renvoyer…</button>
+                    <a href="Caissier-Encaissement.dc.html" style="display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 8px; background: #0B3D91; color: #FFFFFF; font-weight: 700; text-decoration: none">Encaisser</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>09 h 05</td>
+                  <td class="id">MUL-PINHUM-2026-000012</td>
+                  <td><span style="display: inline-block; padding: 4px 10px; border-radius: 6px; background: #BF360C; color: #FFFFFF; font-size: 14px; font-weight: 700">Permis d'inhumation</span></td>
+                  <td>Kabila Ndoole</td>
+                  <td style="font-weight: 700; font-size: 18px">9 000 FC</td>
+                  <td style="text-align: right; white-space: nowrap">
+                    <button type="button" style="height: 44px; padding: 0 14px; margin-right: 8px; border: 1px solid #A9B4C4; border-radius: 8px; background: #FFFFFF; color: #14213D; font-family: inherit; font-size: 15px">Renvoyer…</button>
+                    <a href="Caissier-Encaissement.dc.html" style="display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 8px; background: #0B3D91; color: #FFFFFF; font-weight: 700; text-decoration: none">Encaisser</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 24px">
+          <section style="flex: 999 1 520px; background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; overflow: hidden">
+            <h2 style="margin: 0; padding: 18px 20px; font-size: 20px; font-weight: 700">Derniers reçus</h2>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px; border-top: 1px solid #EDF0F5; flex-wrap: wrap">
+              <span class="id">MUL-REC-2026-000846</span><span>39 000 FC</span>
+              <span style="padding: 4px 10px; border-radius: 999px; background: #E8F5EC; color: #1B5E20; font-size: 14px; font-weight: 700">Valide</span>
+              <button type="button" style="height: 40px; padding: 0 14px; border: 1px solid #B42318; border-radius: 8px; background: #FFFFFF; color: #B42318; font-family: inherit; font-size: 15px; font-weight: 600">Annuler…</button>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px; border-top: 1px solid #EDF0F5; flex-wrap: wrap">
+              <span class="id">MUL-REC-2026-000845</span><span>85 500 FC</span>
+              <span style="padding: 4px 10px; border-radius: 999px; background: #E8F5EC; color: #1B5E20; font-size: 14px; font-weight: 700">Valide</span>
+              <button type="button" style="height: 40px; padding: 0 14px; border: 1px solid #B42318; border-radius: 8px; background: #FFFFFF; color: #B42318; font-family: inherit; font-size: 15px; font-weight: 600">Annuler…</button>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px; border-top: 1px solid #EDF0F5; flex-wrap: wrap">
+              <span class="id" style="text-decoration: line-through; color: #6B7280">MUL-REC-2026-000844</span><span style="text-decoration: line-through; color: #6B7280">30 $</span>
+              <span style="padding: 4px 10px; border-radius: 999px; background: #FDECEC; color: #8A1C1C; font-size: 14px; font-weight: 700">Annulé · erreur de type</span>
+              <span style="width: 96px"></span>
+            </div>
+          </section>
+
+          <section style="flex: 1 1 340px; background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 12px">
+            <h2 style="margin: 0; font-size: 20px; font-weight: 700">Fin de journée</h2>
+            <p style="margin: 0; font-size: 16px; line-height: 1.45; color: #374151">Comptez l'argent en caisse, puis clôturez. Une fois clôturée, la journée ne peut plus être modifiée.</p>
+            <a href="Caissier-Cloture.dc.html" style="display: flex; align-items: center; justify-content: center; height: 52px; border-radius: 8px; background: #0B3D91; color: #FFFFFF; font-size: 17px; font-weight: 700; text-decoration: none">Clôturer la caisse</a>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"sansTaux":{"editor":"boolean","default":false,"section":"Exemples d&#39;alerte"},"$preview":{"width":1440,"height":1120}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const sansTaux = this.props.sansTaux ?? false;
+    return { sansTaux: sansTaux, avecTaux: !sansTaux };
+  }
+}
+</script>
+</body>
+</html>

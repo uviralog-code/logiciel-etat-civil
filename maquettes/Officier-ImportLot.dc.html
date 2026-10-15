@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Import en lot — anciens registres</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F6F9;color:#14213D;font-family:'Source Sans 3',system-ui,sans-serif}
+a{color:#0B3D91}a:hover{color:#072A66}
+input:focus,button:focus-visible,a:focus-visible{outline:3px solid #8DB4F2;outline-offset:1px}
+.nav a{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:8px;color:#D6E2F7;text-decoration:none;font-size:16px;font-weight:500}
+.nav a:hover{background:#0F4AA8;color:#FFFFFF}
+.nav a.actif{background:#FFFFFF;color:#0B3D91;font-weight:700}
+.champ{display:flex;flex-direction:column;gap:8px}
+.champ label{font-size:16px;font-weight:600}
+.champ input{height:48px;padding:0 14px;font-size:17px;font-family:inherit;color:#14213D;border:1px solid #A9B4C4;border-radius:8px;box-sizing:border-box}
+.ligne{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 20px;border-top:1px solid #EDF0F5;font-size:16px;flex-wrap:wrap}
+.id{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:15px}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column">
+  <div style="display: flex; height: 6px" aria-hidden="true">
+    <div style="flex: 6; background: #0B7BD8"></div><div style="flex: 1; background: #F7D618"></div><div style="flex: 2; background: #C8102E"></div><div style="flex: 1; background: #F7D618"></div><div style="flex: 6; background: #0B7BD8"></div>
+  </div>
+  <div style="flex: 1; display: flex; flex-wrap: wrap">
+
+    <nav class="nav" aria-label="Menu principal" style="flex: 1 1 240px; max-width: 280px; background: #0B3D91; padding: 28px 16px; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box">
+      <div style="padding: 0 16px 24px; display: flex; flex-direction: column; gap: 4px">
+        <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; font-weight: 700; color: #FFFFFF">État civil · Uvira</span>
+        <span style="font-size: 14px; color: #B9CBEB">Commune de Mulongwe</span>
+      </div>
+      <a href="Officier-Accueil.dc.html">Accueil</a>
+      <a href="Officier-NouvelActe-Type.dc.html">Nouvel acte</a>
+      <a href="Officier-Scan.dc.html">Scanner</a>
+      <a href="#">Rechercher</a>
+      <a href="#" class="actif">Anciens registres</a>
+      <a href="Officier-Tarifs.dc.html">Tarifs de l'entité</a>
+    </nav>
+
+    <main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+      <header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 40px; background: #FFFFFF; border-bottom: 1px solid #D9DFE8">
+        <a href="#" style="font-size: 16px; font-weight: 600">‹ Tous les lots</a>
+        <span style="font-size: 16px"><strong>Bahati Mugisho</strong> · Officier d'état civil</span>
+      </header>
+
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 22px 40px; background: #2E7D32; color: #FFFFFF">
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <span style="font-size: 15px; letter-spacing: 0.05em; text-transform: uppercase">Lot ouvert · un seul type d'acte accepté</span>
+          <span style="font-size: 26px; font-weight: 700">Registre des naissances 2019, volume 1</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px">
+          <span style="font-size: 34px; font-weight: 700">37</span>
+          <span style="font-size: 15px">actes numérisés dans ce lot</span>
+        </div>
+      </div>
+
+      <div style="padding: 32px 40px 48px; display: flex; flex-wrap: wrap; gap: 32px; max-width: 1560px; box-sizing: border-box; width: 100%; align-items: flex-start">
+        <form style="flex: 999 1 520px; min-width: 0; background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 20px">
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <h1 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 26px; font-weight: 700">Ajouter l'acte suivant du registre</h1>
+            <p style="margin: 0; font-size: 16px; color: #4A5568">Type imposé par le lot : <strong>extrait d'acte de naissance (EXNAIS)</strong>, année <strong>2019</strong>.</p>
+          </div>
+          <div class="champ">
+            <label for="titulaire">Nom de l'enfant (titulaire)</label>
+            <input id="titulaire" type="text" value="Furaha Espoir">
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px">
+            <div class="champ">
+              <label for="date">Date de l'acte dans le registre</label>
+              <input id="date" type="text" value="10/05/2019">
+            </div>
+            <div class="champ">
+              <label for="registre">N° dans le registre papier</label>
+              <input id="registre" type="text" value="Reg. 2019 n° 412">
+            </div>
+          </div>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap">
+            <button type="button" style="flex: 1 1 200px; height: 56px; border: 0; border-radius: 8px; background: #0B3D91; color: #FFFFFF; font-family: inherit; font-size: 18px; font-weight: 700">Scanner et enregistrer</button>
+            <button type="button" style="flex: 1 1 200px; height: 56px; border: 1px solid #0B3D91; border-radius: 8px; background: #FFFFFF; color: #0B3D91; font-family: inherit; font-size: 18px; font-weight: 700">Importer plusieurs fichiers</button>
+          </div>
+          <p style="margin: 0; font-size: 15px; color: #4A5568">L'acte recevra l'ID <span class="id">MUL-EXNAIS-2019-000038</span> et sera classé « délivré », sans montant.</p>
+        </form>
+
+        <aside style="flex: 1 1 380px; display: flex; flex-direction: column; gap: 16px">
+          <section style="background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; overflow: hidden">
+            <h2 style="margin: 0; padding: 18px 20px; font-size: 20px; font-weight: 700">Derniers ajoutés</h2>
+            <div class="ligne"><span class="id">MUL-EXNAIS-2019-000037</span><span>Reg. n° 411</span></div>
+            <div class="ligne"><span class="id">MUL-EXNAIS-2019-000036</span><span>Reg. n° 410</span></div>
+            <div class="ligne"><span class="id">MUL-EXNAIS-2019-000035</span><span>Reg. n° 409</span></div>
+            <div class="ligne"><span class="id">MUL-EXNAIS-2019-000034</span><span>Reg. n° 408</span></div>
+          </section>
+          <section style="background: #FFF4D6; border: 1px solid #E8C766; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+            <h2 style="margin: 0; font-size: 18px; font-weight: 700; color: #6B4E00">Registre terminé ?</h2>
+            <p style="margin: 0; font-size: 15px; line-height: 1.45; color: #6B4E00">Fermer le lot est définitif : il n'acceptera plus aucun document.</p>
+            <button type="button" style="align-self: flex-start; height: 44px; padding: 0 18px; border: 1px solid #6B4E00; border-radius: 8px; background: #FFFFFF; color: #6B4E00; font-family: inherit; font-size: 16px; font-weight: 700">Fermer le lot…</button>
+          </section>
+        </aside>
+      </div>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1020}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

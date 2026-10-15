@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+/*
+ * Charte graphique — reprise des maquettes validées (étape 3).
+ * Ces variables deviennent des classes Tailwind : bg-bleu-etat, text-encre…
+ * Les mêmes valeurs figurent dans src/lib/charte.ts (testées).
+ */
+@theme {
+  --color-bleu-etat: #0b3d91;
+  --color-bleu-etat-fonce: #072a66;
+  --color-bleu-clair: #e6edf8;
+  --color-encre: #14213d;
+  --color-texte-doux: #4a5568;
+  --color-fond: #f4f6f9;
+  --color-surface: #ffffff;
+  --color-bordure: #d9dfe8;
+  --color-bordure-champ: #a9b4c4;
+
+  --color-drapeau-ciel: #0b7bd8;
+  --color-drapeau-jaune: #f7d618;
+  --color-drapeau-rouge: #c8102e;
+
+  --color-succes-fond: #e8f5ec;
+  --color-succes-texte: #1b5e20;
+  --color-attention-fond: #fff4d6;
+  --color-attention-texte: #6b4e00;
+  --color-erreur-fond: #fdecec;
+  --color-erreur-texte: #8a1c1c;
+
+  --font-sans: "Source Sans 3 Variable", system-ui, sans-serif;
+  --font-serif: "Source Serif 4 Variable", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+html {
+  background: var(--color-fond);
+  color: var(--color-encre);
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+}
+
+/* Contour visible au clavier, sur tous les éléments actifs */
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid #8db4f2;
+  outline-offset: 1px;
+}
+
+/*
+ * Impression : seule la fiche de remise (mot de passe provisoire) est imprimée,
+ * jamais le reste de l'écran (fichiers 21 et 22).
+ */
+@media print {
+  body > :not(.fiche-remise):not(.recu-impression) {
+    display: none !important;
+  }
+  /* Reçu de paiement : une feuille A5, sans marge (le reçu a ses propres marges) — fichier 39 */
+  .recu-impression {
+    display: block !important;
+    page: recu-a5;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  @page recu-a5 {
+    size: A5 portrait;
+    margin: 0;
+  }
+  .fiche-remise {
+    display: block !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+}

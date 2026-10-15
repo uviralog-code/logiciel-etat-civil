@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Clôture de caisse</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F6F9;color:#14213D;font-family:'Source Sans 3',system-ui,sans-serif}
+a{color:#0B3D91}a:hover{color:#072A66}
+input:focus,textarea:focus,button:focus-visible,a:focus-visible{outline:3px solid #8DB4F2;outline-offset:1px}
+.nav a{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:8px;color:#D6E2F7;text-decoration:none;font-size:16px;font-weight:500}
+.nav a:hover{background:#0F4AA8;color:#FFFFFF}
+.nav a.actif{background:#FFFFFF;color:#0B3D91;font-weight:700}
+th{text-align:left;font-size:13px;font-weight:700;color:#4A5568;text-transform:uppercase;letter-spacing:0.05em;padding:12px 18px;border-bottom:1px solid #D9DFE8}
+td{padding:16px 18px;border-bottom:1px solid #EDF0F5;font-size:18px;vertical-align:middle}
+.id{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:15px}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column">
+  <div style="display: flex; height: 6px" aria-hidden="true">
+    <div style="flex: 6; background: #0B7BD8"></div><div style="flex: 1; background: #F7D618"></div><div style="flex: 2; background: #C8102E"></div><div style="flex: 1; background: #F7D618"></div><div style="flex: 6; background: #0B7BD8"></div>
+  </div>
+  <div style="flex: 1; display: flex; flex-wrap: wrap">
+
+    <nav class="nav" aria-label="Menu principal" style="flex: 1 1 240px; max-width: 280px; background: #0B3D91; padding: 28px 16px; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box">
+      <div style="padding: 0 16px 24px; display: flex; flex-direction: column; gap: 4px">
+        <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; font-weight: 700; color: #FFFFFF">État civil · Uvira</span>
+        <span style="font-size: 14px; color: #B9CBEB">Commune de Mulongwe · Caisse</span>
+      </div>
+      <a href="Caissier-Accueil.dc.html">Accueil</a>
+      <a href="Caissier-Encaissement.dc.html">Encaisser</a>
+      <a href="#">Reçus du jour</a>
+      <a href="#">Taux du jour</a>
+      <a href="#" class="actif">Clôture de caisse</a>
+      <a href="Caissier-Rapports.dc.html">Rapports</a>
+      <a href="#">Rechercher</a>
+    </nav>
+
+    <main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+      <header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 40px; background: #FFFFFF; border-bottom: 1px solid #D9DFE8">
+        <span style="font-size: 16px; color: #4A5568">Journée du mardi 13 octobre 2026</span>
+        <span style="font-size: 16px"><strong>Neema Furaha</strong> · Caissier</span>
+      </header>
+
+      <div style="padding: 32px 40px 48px; display: flex; flex-direction: column; gap: 24px; max-width: 1560px; box-sizing: border-box; width: 100%">
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <h1 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 34px; font-weight: 700">Clôture de la caisse</h1>
+          <p style="margin: 0; font-size: 17px; color: #4A5568">7 reçus émis aujourd'hui, dont 1 annulé · 1 exonération (18 000 FC non perçus)</p>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start">
+          <form style="flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+            <section style="background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 16px">
+              <div style="display: flex; flex-direction: column; gap: 4px">
+                <h2 style="margin: 0; font-size: 20px; font-weight: 700">Aide au comptage</h2>
+                <span style="font-size: 15px; color: #4A5568">Indiquez le nombre de billets de chaque valeur : le logiciel fait l'addition et remplit le « compté en caisse ».</span>
+              </div>
+              <div style="display: flex; flex-wrap: wrap; gap: 24px">
+                <fieldset style="flex: 1 1 300px; margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 8px">
+                  <legend style="font-size: 16px; font-weight: 700; margin-bottom: 8px; padding: 0">Francs congolais</legend>
+                  <sc-for list="{{billetsCdf}}" as="b" hint-placeholder-count="8">
+                    <div style="display: grid; grid-template-columns: minmax(0, 1fr) 90px minmax(0, 1fr); align-items: center; gap: 12px; font-size: 16px">
+                      <label for="{{b.id}}">{{b.valeur}}</label>
+                      <input id="{{b.id}}" type="text" inputmode="numeric" value="{{b.nombre}}" style="height: 40px; width: 90px; padding: 0 10px; font-size: 17px; font-family: inherit; border: 1px solid #A9B4C4; border-radius: 6px; box-sizing: border-box; text-align: right">
+                      <span style="text-align: right; font-variant-numeric: tabular-nums; color: #374151">{{b.total}}</span>
+                    </div>
+                  </sc-for>
+                  <div style="display: flex; justify-content: space-between; padding-top: 10px; border-top: 1px solid #D9DFE8; font-size: 17px; font-weight: 700"><span>Total compté</span><span>{{compteCdf}} FC</span></div>
+                </fieldset>
+                <fieldset style="flex: 1 1 300px; margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 8px">
+                  <legend style="font-size: 16px; font-weight: 700; margin-bottom: 8px; padding: 0">Dollars américains</legend>
+                  <sc-for list="{{billetsUsd}}" as="b" hint-placeholder-count="7">
+                    <div style="display: grid; grid-template-columns: minmax(0, 1fr) 90px minmax(0, 1fr); align-items: center; gap: 12px; font-size: 16px">
+                      <label for="{{b.id}}">{{b.valeur}}</label>
+                      <input id="{{b.id}}" type="text" inputmode="numeric" value="{{b.nombre}}" style="height: 40px; width: 90px; padding: 0 10px; font-size: 17px; font-family: inherit; border: 1px solid #A9B4C4; border-radius: 6px; box-sizing: border-box; text-align: right">
+                      <span style="text-align: right; font-variant-numeric: tabular-nums; color: #374151">{{b.total}}</span>
+                    </div>
+                  </sc-for>
+                  <div style="display: flex; justify-content: space-between; padding-top: 10px; border-top: 1px solid #D9DFE8; font-size: 17px; font-weight: 700"><span>Total compté</span><span>60 $</span></div>
+                </fieldset>
+              </div>
+            </section>
+
+            <section style="background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; overflow: hidden">
+              <div style="overflow-x: auto">
+                <table style="width: 100%; border-collapse: collapse; min-width: 620px">
+                  <thead><tr><th>Monnaie</th><th>Attendu (calculé)</th><th>Compté en caisse</th><th>Écart</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td style="font-weight: 700">Dollars</td>
+                      <td>60,00 $</td>
+                      <td><label for="usd" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Dollars comptés</label><input id="usd" type="text" value="60,00" style="width: 160px; height: 48px; padding: 0 12px; font-size: 20px; font-family: inherit; border: 1px solid #A9B4C4; border-radius: 8px; box-sizing: border-box"> $</td>
+                      <td><span style="padding: 4px 12px; border-radius: 999px; background: #E8F5EC; color: #1B5E20; font-size: 16px; font-weight: 700">0 $ · juste</span></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight: 700">Francs</td>
+                      <td>223 500 FC</td>
+                      <td><label for="cdf" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Francs comptés</label><input id="cdf" type="text" value="{{compteCdf}}" style="width: 160px; height: 48px; padding: 0 12px; font-size: 20px; font-family: inherit; border: 1px solid #A9B4C4; border-radius: 8px; box-sizing: border-box"> FC</td>
+                      <td>
+                        <sc-if value="{{avecEcart}}" hint-placeholder-val="{{ true }}"><span style="padding: 4px 12px; border-radius: 999px; background: #FDECEC; color: #8A1C1C; font-size: 16px; font-weight: 700">− 5 000 FC · manque</span></sc-if>
+                        <sc-if value="{{sansEcart}}" hint-placeholder-val="{{ false }}"><span style="padding: 4px 12px; border-radius: 999px; background: #E8F5EC; color: #1B5E20; font-size: 16px; font-weight: 700">0 FC · juste</span></sc-if>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <sc-if value="{{avecEcart}}" hint-placeholder-val="{{ true }}">
+              <section style="background: #FFFFFF; border: 2px solid #B42318; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 10px">
+                <label for="explication" style="font-size: 18px; font-weight: 700; color: #8A1C1C">Expliquez l'écart (obligatoire)</label>
+                <textarea id="explication" style="height: 96px; padding: 12px 14px; font-size: 17px; font-family: inherit; border: 1px solid #A9B4C4; border-radius: 8px; box-sizing: border-box; resize: vertical">Billet de 5 000 FC rendu par erreur à un usager vers 11 h.</textarea>
+                <span style="font-size: 15px; color: #4A5568">L'écart et son explication sont transmis à l'administrateur.</span>
+              </section>
+            </sc-if>
+
+            <div style="display: flex; flex-direction: column; gap: 12px; padding: 20px 22px; border-radius: 10px; background: #FFF4D6; border: 1px solid #E8C766; color: #6B4E00">
+              <strong style="font-size: 17px">Après la clôture, la journée est verrouillée</strong>
+              <span style="font-size: 16px; line-height: 1.45">Plus aucun encaissement, exonération ni annulation de reçu pour le 13/10/2026, même par l'administrateur. Un usager qui se présente ensuite paiera demain.</span>
+            </div>
+
+            <button type="submit" style="align-self: flex-start; height: 60px; padding: 0 32px; border: 0; border-radius: 8px; background: #0B3D91; color: #FFFFFF; font-family: inherit; font-size: 19px; font-weight: 700">Clôturer la journée du 13/10/2026</button>
+          </form>
+
+          <aside style="flex: 1 1 360px; display: flex; flex-direction: column; gap: 16px">
+            <section style="background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; overflow: hidden">
+              <div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 4px">
+                <h2 style="margin: 0; font-size: 19px; font-weight: 700">Actes payés aujourd'hui sans scan</h2>
+                <span style="font-size: 15px; color: #4A5568">Signalés à l'administrateur, sans bloquer la clôture</span>
+              </div>
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px; border-top: 1px solid #EDF0F5"><span class="id">MUL-ATRES-2026-000088</span><span style="font-size: 15px">John Smith</span></div>
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px; border-top: 1px solid #EDF0F5"><span class="id">MUL-ATRES-2026-000089</span><span style="font-size: 15px">Byamungu Amani</span></div>
+              <p style="margin: 0; padding: 12px 20px 18px; font-size: 15px; color: #374151">Rappelez à l'Officier de les scanner : il peut le faire même après la clôture.</p>
+            </section>
+            <section style="background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 8px">
+              <h2 style="margin: 0; font-size: 19px; font-weight: 700">Total de la journée</h2>
+              <span style="font-size: 30px; font-weight: 700">394 500 FC</span>
+              <span style="font-size: 15px; color: #4A5568">en équivalent francs, au taux de chaque paiement</span>
+            </section>
+          </aside>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"ecart":{"editor":"boolean","default":true,"section":"Exemple"},"$preview":{"width":1440,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const ecart = this.props.ecart ?? true;
+    const sep = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    const ligne = (prefixe, unite) => ([valeur, nombre]) => ({
+      id: prefixe + valeur, valeur: 'Billets de ' + sep(valeur) + ' ' + unite,
+      nombre: String(nombre), total: sep(valeur * nombre) + ' ' + unite
+    });
+    const cdf = [[20000, 8], [10000, 4], [5000, ecart ? 3 : 4], [1000, 3], [500, 1], [200, 0], [100, 0], [50, 0]];
+    const usd = [[100, 0], [50, 0], [20, 2], [10, 1], [5, 2], [2, 0], [1, 0]];
+    return {
+      avecEcart: ecart, sansEcart: !ecart,
+      compteCdf: ecart ? '218 500' : '223 500',
+      billetsCdf: cdf.map(ligne('cdf', 'FC')),
+      billetsUsd: usd.map(ligne('usd', '$'))
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Encaissement</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F6F9;color:#14213D;font-family:'Source Sans 3',system-ui,sans-serif}
+a{color:#0B3D91}a:hover{color:#072A66}
+button:focus-visible,a:focus-visible{outline:3px solid #8DB4F2;outline-offset:1px}
+.nav a{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:8px;color:#D6E2F7;text-decoration:none;font-size:16px;font-weight:500}
+.nav a:hover{background:#0F4AA8;color:#FFFFFF}
+.nav a.actif{background:#FFFFFF;color:#0B3D91;font-weight:700}
+dl{margin:0;display:grid;grid-template-columns:minmax(0,170px) minmax(0,1fr);row-gap:10px;column-gap:16px;font-size:16px}
+dt{color:#4A5568}
+dd{margin:0;font-weight:600}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column">
+  <div style="display: flex; height: 6px" aria-hidden="true">
+    <div style="flex: 6; background: #0B7BD8"></div><div style="flex: 1; background: #F7D618"></div><div style="flex: 2; background: #C8102E"></div><div style="flex: 1; background: #F7D618"></div><div style="flex: 6; background: #0B7BD8"></div>
+  </div>
+  <div style="flex: 1; display: flex; flex-wrap: wrap">
+
+    <nav class="nav" aria-label="Menu principal" style="flex: 1 1 240px; max-width: 280px; background: #0B3D91; padding: 28px 16px; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box">
+      <div style="padding: 0 16px 24px; display: flex; flex-direction: column; gap: 4px">
+        <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; font-weight: 700; color: #FFFFFF">État civil · Uvira</span>
+        <span style="font-size: 14px; color: #B9CBEB">Commune de Mulongwe · Caisse</span>
+      </div>
+      <a href="Caissier-Accueil.dc.html">Accueil</a>
+      <a href="#" class="actif">Encaisser</a>
+      <a href="#">Reçus du jour</a>
+      <a href="#">Taux du jour</a>
+      <a href="Caissier-Cloture.dc.html">Clôture de caisse</a>
+      <a href="Caissier-Rapports.dc.html">Rapports</a>
+      <a href="#">Rechercher</a>
+    </nav>
+
+    <main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+      <header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 40px; background: #FFFFFF; border-bottom: 1px solid #D9DFE8">
+        <a href="Caissier-Accueil.dc.html" style="font-size: 16px; font-weight: 600">‹ Retour à la file d'attente</a>
+        <span style="font-size: 16px">Taux du jour : <strong>2 850 FC pour 1 $</strong></span>
+      </header>
+
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 22px 40px; background: #2E7D32; color: #FFFFFF">
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <span style="font-size: 26px; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase">Extrait d'acte de naissance</span>
+          <span style="font-size: 18px">Titulaire : <strong>Mapendo Grace</strong> · demandeur : Mapendo Joseph</span>
+        </div>
+        <span style="padding: 8px 14px; border-radius: 8px; background: #FFFFFF; color: #1B5E20; font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 20px">MUL-EXNAIS-2026-000124</span>
+      </div>
+
+      <div style="padding: 32px 40px 48px; display: flex; flex-wrap: wrap; gap: 32px; max-width: 1560px; box-sizing: border-box; width: 100%; align-items: flex-start">
+        <section style="flex: 999 1 560px; min-width: 0; background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; padding: 28px; display: flex; flex-direction: column; gap: 26px">
+          <div style="display: flex; flex-direction: column; gap: 4px">
+            <span style="font-size: 16px; color: #4A5568">Montant dû selon la grille</span>
+            <span style="font-size: 44px; font-weight: 700">30 $</span>
+          </div>
+
+          <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 12px">
+            <legend style="font-size: 18px; font-weight: 700; padding: 0; margin-bottom: 12px">Le demandeur paie en</legend>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px">
+              <label style="display: flex; align-items: center; gap: 12px; height: 64px; padding: 0 20px; border-radius: 10px; font-size: 20px; font-weight: 600; cursor: pointer; {{styleUsd}}"><input type="radio" name="monnaie" checked="{{choixUsd}}"> Dollars américains ($)</label>
+              <label style="display: flex; align-items: center; gap: 12px; height: 64px; padding: 0 20px; border-radius: 10px; font-size: 20px; font-weight: 600; cursor: pointer; {{styleCdf}}"><input type="radio" name="monnaie" checked="{{choixCdf}}"> Francs congolais (FC)</label>
+            </div>
+          </fieldset>
+
+          <div style="display: flex; flex-direction: column; gap: 6px; padding: 24px; border-radius: 10px; background: #F0F5FF; border: 2px solid #0B3D91">
+            <span style="font-size: 17px; color: #0B3D91; font-weight: 600">À percevoir, en espèces</span>
+            <span style="font-size: 56px; font-weight: 700; color: #0B3D91">{{aPercevoir}}</span>
+            <span style="font-size: 17px; color: #374151">{{calcul}}</span>
+          </div>
+
+          <p style="margin: 0; font-size: 15px; color: #4A5568">Le montant est calculé par le logiciel et ne peut pas être modifié. Le reçu portera le taux appliqué.</p>
+
+          <div style="display: flex; gap: 14px; flex-wrap: wrap">
+            <a href="Caissier-Recu.dc.html" style="flex: 2 1 320px; display: flex; align-items: center; justify-content: center; height: 60px; border-radius: 8px; background: #0B3D91; color: #FFFFFF; font-size: 19px; font-weight: 700; text-decoration: none">Valider et imprimer le reçu</a>
+            <a href="Caissier-Accueil.dc.html" style="flex: 1 1 160px; display: flex; align-items: center; justify-content: center; height: 60px; border-radius: 8px; border: 1px solid #A9B4C4; color: #14213D; font-size: 17px; text-decoration: none">Annuler</a>
+          </div>
+        </section>
+
+        <aside style="flex: 1 1 360px; display: flex; flex-direction: column; gap: 16px">
+          <section style="background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+            <h2 style="margin: 0; font-size: 20px; font-weight: 700">L'acte</h2>
+            <dl>
+              <dt>Catégorie</dt><dd>National</dd>
+              <dt>Enregistré par</dt><dd>Bahati Mugisho</dd>
+              <dt>Transmis à</dt><dd>08 h 15</dd>
+              <dt>Tarif</dt><dd>Grille commune (2026)</dd>
+            </dl>
+          </section>
+          <section style="background: #FFFFFF; border: 1px solid #D9DFE8; border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+            <h2 style="margin: 0; font-size: 20px; font-weight: 700">Autres décisions</h2>
+            <button type="button" style="height: 48px; border: 1px solid #00727C; border-radius: 8px; background: #FFFFFF; color: #00727C; font-family: inherit; font-size: 16px; font-weight: 700">Exonérer (motif obligatoire)…</button>
+            <button type="button" style="height: 48px; border: 1px solid #A9B4C4; border-radius: 8px; background: #FFFFFF; color: #14213D; font-family: inherit; font-size: 16px; font-weight: 600">Renvoyer à l'Officier (motif)…</button>
+          </section>
+        </aside>
+      </div>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"monnaie":{"editor":"enum","options":["Dollars","Francs"],"default":"Francs","section":"Exemple"},"$preview":{"width":1440,"height":1020}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const enFrancs = (this.props.monnaie ?? 'Francs') === 'Francs';
+    const actif = 'border: 2px solid #0B3D91; background: #E6EDF8; color: #0B3D91';
+    const inactif = 'border: 1px solid #A9B4C4; background: #FFFFFF; color: #14213D';
+    return {
+      choixUsd: !enFrancs,
+      choixCdf: enFrancs,
+      styleUsd: enFrancs ? inactif : actif,
+      styleCdf: enFrancs ? actif : inactif,
+      aPercevoir: enFrancs ? '85 500 FC' : '30 $',
+      calcul: enFrancs ? '30 $ × 2 850 FC = 85 500 FC' : 'Payé dans la monnaie de l’acte, aucune conversion'
+    };
+  }
+}
+</script>
+</body>
+</html>
