@@ -22,17 +22,17 @@ Trois services gratuits travaillent ensemble :
 1. Sur **supabase.com**, ouvrez votre projet (ou « New project ») :
    - nom : `etat-civil-uvira` ;
    - **Database Password** : choisissez un mot de passe solide et **notez-le** ;
-   - région : **Central EU (Frankfurt)**.
+   - région : **West EU (Ireland)** (le site est publié au même endroit).
 2. Attendez que le projet soit prêt (2 minutes environ).
 3. Notez quatre informations (vous les collerez à l'étape 3) :
    - **Project Settings › Data API** : l'adresse **Project URL**
      (`https://xxxx.supabase.co`) ;
    - **Project Settings › API Keys** : la clé **anon / public** et la clé
      **service_role** (secrète : bouton « Reveal ») ;
-   - bouton **Connect** (en haut) › onglet **Connection string** › choisissez
+   - bouton **Connect** (en haut) › onglet **Direct** › choisissez
      **« Session pooler »** : copiez l'adresse qui commence par
      `postgresql://postgres.xxxx:[YOUR-PASSWORD]@…pooler.supabase.com:5432/postgres`
-     et **remplacez `[YOUR-PASSWORD]`** par le mot de passe de la base.
+     et **enlevez `:[YOUR-PASSWORD]`** (le mot de passe va dans un secret à part).
      (Ne prenez pas « Direct connection » : elle ne fonctionne pas depuis GitHub.)
 4. **Authentication › Sign In / Providers › Email** : vérifiez que
    « Allow new users to sign up » est **désactivé** (les comptes sont créés par
@@ -45,14 +45,15 @@ Le code est déposé dans votre dépôt privé `logiciel-etat-civil`.
 ## Étape 3 — Les secrets dans GitHub (10 min)
 
 Dans le dépôt GitHub : **Settings › Secrets and variables › Actions ›
-New repository secret**. Créez ces 6 secrets (nom exact à gauche) :
+New repository secret**. Créez ces 7 secrets (nom exact à gauche) :
 
 | Nom du secret | Valeur |
 |---|---|
 | `SUPABASE_URL` | la « Project URL » (`https://xxxx.supabase.co`) |
 | `SUPABASE_ANON_KEY` | la clé **anon / public** |
 | `SUPABASE_SERVICE_ROLE_KEY` | la clé **service_role** (secrète) |
-| `SUPABASE_DB_URL` | l'adresse « Session pooler » **avec le mot de passe** |
+| `SUPABASE_DB_URL` | l'adresse « Session pooler » **sans** `:[YOUR-PASSWORD]` |
+| `SUPABASE_DB_PASSWORD` | le mot de passe de la base, tel quel |
 | `MOT_DE_PASSE_PROVISOIRE_ADMIN` | un mot de passe provisoire pour votre compte administrateur (10 caractères au moins) |
 | `MOT_DE_PASSE_DEMO` | le mot de passe commun des 8 comptes de démonstration (10 caractères au moins) |
 

@@ -8,7 +8,8 @@
 # script ne refait jamais une migration déjà faite.
 #
 # Variable obligatoire : SUPABASE_DB_URL (Supabase › Connect › « Session
-# pooler », avec le mot de passe de la base).
+# pooler »). Le mot de passe de la base peut y figurer, ou être donné à
+# part dans PGPASSWORD (c'est ce que fait le workflow GitHub).
 # =====================================================================
 set -euo pipefail
 : "${SUPABASE_DB_URL:?Indiquez SUPABASE_DB_URL (adresse « Session pooler » de la base Supabase).}"
